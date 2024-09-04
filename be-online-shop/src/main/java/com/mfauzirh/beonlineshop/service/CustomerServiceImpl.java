@@ -33,12 +33,10 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (request.getPic() != null) {
             String timestamp = String.valueOf(Instant.now().toEpochMilli());;
-            String fileName = request.getPic().getOriginalFilename() + "_" +timestamp;
+            String fileName = timestamp + "_" + request.getPic().getOriginalFilename();
             minioUtil.uploadImage(request.getPic(), fileName);
             customer.pic(fileName);
         }
-
-        customer.pic("example.png");
 
         customerRepository.save(customer);
 
