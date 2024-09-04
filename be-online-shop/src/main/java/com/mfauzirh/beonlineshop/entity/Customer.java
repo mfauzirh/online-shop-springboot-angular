@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "customers")
+@Accessors(fluent = true)
 public class Customer {
     @Id
     @GeneratedValue
@@ -34,7 +36,7 @@ public class Customer {
     private String customerPhone;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(name="last_order_date")
     private LocalDateTime lastOrderDate;
