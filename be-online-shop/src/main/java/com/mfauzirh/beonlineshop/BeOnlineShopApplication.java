@@ -1,4 +1,4 @@
-package com.mfauzirh.be_online_shop;
+package com.mfauzirh.beonlineshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
