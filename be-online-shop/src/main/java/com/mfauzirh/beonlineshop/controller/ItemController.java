@@ -50,4 +50,17 @@ public class ItemController {
         return ResponseEntity.ok(
                 new BaseResponse<>(item, "Success retrieve item data", HttpStatus.OK));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> updateItem(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id,
+            @Valid @RequestBody
+            ItemUpdateRequest request
+    ) {
+        String result = itemService.updateItem(id, request);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }

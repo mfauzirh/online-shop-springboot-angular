@@ -57,6 +57,7 @@ public class CustomerController {
     public ResponseEntity<BaseResponse<String>> updateCustomer(
             @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
             long id,
+            @Valid
             CustomerUpdateRequest request
     ) {
         String result = customerService.updateCustomer(id, request);

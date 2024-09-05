@@ -16,10 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -70,6 +67,25 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new EntityNotFoundException("Item with id " + itemId + " doesn't exists"));
 
         return convertToItemResponse(item);
+    }
+
+    @Override
+    public String updateItem(long itemId, ItemUpdateRequest request) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException("Item with id " + itemId + " doesn't exists"));
+
+        if(!Objects.equals(request.getStock(), item.getStock())) {
+            item.setLastReStock(LocalDateTime.now());
+        }
+
+        item.setItemName(request.getItemName());
+        item.setStock(request.getStock());
+        item.setPrice(request.getPrice());
+        item.setIsAvailable(request.getIsAvailable());
+
+        itemRepository.save(item);
+
+        return "Item successfully updated.";
     }
 
     private Specification<Item> constructSpecification(ItemFilterRequest request) {
