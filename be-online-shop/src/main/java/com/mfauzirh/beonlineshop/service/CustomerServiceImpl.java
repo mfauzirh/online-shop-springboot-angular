@@ -2,10 +2,12 @@ package com.mfauzirh.beonlineshop.service;
 
 import com.mfauzirh.beonlineshop.dto.CustomerCreateRequest;
 import com.mfauzirh.beonlineshop.dto.CustomerFilterRequest;
+import com.mfauzirh.beonlineshop.dto.CustomerPreviewResponse;
 import com.mfauzirh.beonlineshop.dto.CustomerResponse;
 import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.repository.CustomerRepository;
 import com.mfauzirh.beonlineshop.util.MinioUtil;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import kotlin.Pair;
 import lombok.SneakyThrows;
@@ -57,17 +59,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Pair<List<CustomerResponse>, Integer> getAllCustomers(CustomerFilterRequest request) {
+    public Pair<List<CustomerPreviewResponse>, Integer> getAllCustomers(CustomerFilterRequest request) {
         Pageable pageable = constructPageable(request.getPageNumber(), request.getPageSize(), request.getSortBy());
         Specification<Customer> spec = constructSpecification(request);
 
         int total = (int) customerRepository.count(spec);
         Page<Customer> customerPage = customerRepository.findAll(spec, pageable);
-        List<CustomerResponse> customers = customerPage.getContent()
+        List<CustomerPreviewResponse> customers = customerPage.getContent()
                 .stream()
-                    .map(this::convertToCustomerResponse)
+                    .map(this::convertToCustomerPreviewResponse)
                     .toList();
         return new Pair<>(customers, total);
+    }
+
+    @Override
+    public CustomerResponse getCustomerById(long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
+        return convertToCustomerResponse(customer);
     }
 
     private Sort extractSortCriteria(String sortBy) {
@@ -102,13 +111,22 @@ public class CustomerServiceImpl implements CustomerService {
                     .ifPresent(name -> predicates.add(cb.like(cb.lower(root.get("customerName")), "%" + name.toLowerCase() + "%")));
             Optional.ofNullable(request.getCustomerAddress())
                     .ifPresent(address -> predicates.add(cb.like(cb.lower(root.get("customerAddress")), "%" + address.toLowerCase() + "%")));
-            Optional.ofNullable(request.getCustomerPhone())
-                    .ifPresent(phoneNumber -> predicates.add(cb.like(cb.lower(root.get("customerPhone")), "%" + phoneNumber.toLowerCase() + "%")));
+//            Optional.ofNullable(request.getCustomerPhone())
+//                    .ifPresent(phoneNumber -> predicates.add(cb.like(cb.lower(root.get("customerPhone")), "%" + phoneNumber.toLowerCase() + "%")));
             //Optional.ofNullable(request.customerCode())
             //        .ifPresent(code -> predicates.add(cb.like(cb.lower(root.get("customerCode")), "%" + code.toLowerCase() + "%")));
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
+    }
+
+    private CustomerPreviewResponse convertToCustomerPreviewResponse(Customer customer) {
+        return  CustomerPreviewResponse.builder()
+                .customerId(customer.customerId())
+                .customerName(customer.customerName())
+                .customerAddress(customer.customerAddress())
+                .customerCode(customer.customerCode())
+                .build();
     }
 
     private CustomerResponse convertToCustomerResponse(Customer customer) {

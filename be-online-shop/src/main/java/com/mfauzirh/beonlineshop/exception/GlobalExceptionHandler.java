@@ -1,6 +1,7 @@
 package com.mfauzirh.beonlineshop.exception;
 
 import com.mfauzirh.beonlineshop.dto.BaseResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,14 @@ public class GlobalExceptionHandler {
         log.error("Validation errors occur : {}", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new BaseResponse<>(String.join(", ", errors), HttpStatus.BAD_REQUEST));
+    }
+
+    // handles errors caused by cannot find entity
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<BaseResponse<String>> handleEntityNotFoundException(EntityNotFoundException ex) {
+        log.error("An error occurred: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new BaseResponse<>("An error occurred: " + ex.getMessage(), HttpStatus.NOT_FOUND));
     }
 
     // handles other error that occurred

@@ -30,9 +30,9 @@ public class CustomerFilterRequest {
 //    @Size(min = 1, max = 36, message = "Customer code must be between 1 and 36 characters")
 //    private UUID customerCode;
 
-    @Nullable
-    @Size(min = 1, max = 20, message = "Customer name must be between 1 and 20 characters")
-    private String customerPhone;
+//    @Nullable
+//    @Size(min = 1, max = 20, message = "Customer name must be between 1 and 20 characters")
+//    private String customerPhone;
 
     @Nullable
     private String sortBy = "customerName,asc";
