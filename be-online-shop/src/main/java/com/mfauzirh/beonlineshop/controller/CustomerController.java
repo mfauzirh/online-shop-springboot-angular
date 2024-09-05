@@ -50,7 +50,7 @@ public class CustomerController {
         CustomerResponse customer = customerService.getCustomerById(id);
 
         return ResponseEntity.ok(
-                new BaseResponse<>(customer, "Successfully retrieve user data", HttpStatus.OK));
+                new BaseResponse<>(customer, "Successfully retrieve customer data", HttpStatus.OK));
     }
 
     @PutMapping("/{id}")

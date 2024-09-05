@@ -4,6 +4,8 @@ import com.mfauzirh.beonlineshop.dto.*;
 import com.mfauzirh.beonlineshop.service.ItemService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import kotlin.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +38,16 @@ public class ItemController {
 
         return ResponseEntity.ok(
                 new BaseResponse<>(pair.getFirst(), "Success retrieve item datas", HttpStatus.OK, pair.getSecond()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<ItemResponse>> getItemById(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id
+    ) {
+        ItemResponse item = itemService.getItemById(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(item, "Success retrieve item data", HttpStatus.OK));
     }
 }

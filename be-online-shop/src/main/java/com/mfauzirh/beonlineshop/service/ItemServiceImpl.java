@@ -5,6 +5,7 @@ import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.entity.Item;
 import com.mfauzirh.beonlineshop.repository.ItemRepository;
 import com.mfauzirh.beonlineshop.util.PageableUtil;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import kotlin.Pair;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,14 @@ public class ItemServiceImpl implements ItemService {
                 .toList();
 
         return new Pair<>(items, total);
+    }
+
+    @Override
+    public ItemResponse getItemById(long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException("Item with id " + itemId + " doesn't exists"));
+
+        return convertToItemResponse(item);
     }
 
     private Specification<Item> constructSpecification(ItemFilterRequest request) {
