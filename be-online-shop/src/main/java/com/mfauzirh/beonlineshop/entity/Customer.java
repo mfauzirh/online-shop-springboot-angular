@@ -31,7 +31,7 @@ public class Customer {
     private String customerAddress;
 
     @Column(name = "customer_code", nullable = false, unique = true, length = 36)
-    private UUID customerCode =UUID.randomUUID();
+    private UUID customerCode;
 
     @Column(name = "customer_phone", nullable = false, length = 20)
     private String customerPhone;

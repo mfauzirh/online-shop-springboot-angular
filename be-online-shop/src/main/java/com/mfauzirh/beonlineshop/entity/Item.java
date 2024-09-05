@@ -27,8 +27,8 @@ public class Item {
     @Column(name = "item_name", nullable = false, length = 255)
     private String itemName;
 
-    @Column(name = "item_code", nullable = false, length = 36)
-    private UUID itemCode = UUID.randomUUID();
+    @Column(name = "item_code", nullable = false, unique = true, length = 36)
+    private UUID itemCode;
 
     @Column(name = "stock")
     @Min(value = 0, message = "Stock can't be lower than 0")

@@ -29,7 +29,7 @@ public class CustomerController {
             @Valid @ModelAttribute CustomerCreateRequest request
     ) {
         String result = customerService.createCustomer(request);
-        return ResponseEntity.ok(new BaseResponse<>(result, HttpStatus.OK));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BaseResponse<>(result, HttpStatus.OK));
     }
 
     @GetMapping
@@ -38,7 +38,7 @@ public class CustomerController {
     ) {
         Pair<List<CustomerPreviewResponse>, Integer> pair = customerService.getAllCustomers(filter);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(
+        return ResponseEntity.ok(
                 new BaseResponse<>(pair.getFirst(), "Success retrieve customer datas", HttpStatus.OK, pair.getSecond()));
     }
 

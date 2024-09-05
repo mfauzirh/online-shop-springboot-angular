@@ -12,9 +12,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -45,8 +43,9 @@ public class CustomerServiceImpl implements CustomerService {
                 .customerName(request.getCustomerName())
                 .customerAddress(request.getCustomerAddress())
                 .customerPhone(request.getCustomerPhone())
+                .customerCode(UUID.randomUUID())
                 .build();
-
+        log.warn("customer saved data : {}", customer);
         if (request.getPic() != null) {
             String timestamp = String.valueOf(Instant.now().toEpochMilli());;
             String fileName = timestamp + "_" + request.getPic().getOriginalFilename();

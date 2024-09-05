@@ -21,7 +21,7 @@ public class Order {
     private Long orderId;
 
     @Column(name = "order_code", nullable = false, length = 36)
-    private UUID orderCode = UUID.randomUUID();
+    private UUID orderCode;
 
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
