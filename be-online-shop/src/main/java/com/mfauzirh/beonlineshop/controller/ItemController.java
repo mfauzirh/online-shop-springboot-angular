@@ -63,4 +63,15 @@ public class ItemController {
         return ResponseEntity.ok(
                 new BaseResponse<>(result, HttpStatus.OK));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> deleteItem(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id
+    ) {
+        String result = itemService.deleteItem(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }

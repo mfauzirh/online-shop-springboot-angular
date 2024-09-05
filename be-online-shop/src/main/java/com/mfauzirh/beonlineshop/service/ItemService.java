@@ -10,4 +10,5 @@ public interface ItemService {
     Pair<List<ItemPreviewResponse>, Integer> getAllItems(ItemFilterRequest request);
     ItemResponse getItemById(long itemId);
     String updateItem(long itemId, ItemUpdateRequest request);
+    String deleteItem(long itemId);
 }

@@ -88,6 +88,16 @@ public class ItemServiceImpl implements ItemService {
         return "Item successfully updated.";
     }
 
+    @Override
+    public String deleteItem(long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new EntityNotFoundException("Item with id " + itemId + " doesn't exists"));
+
+        itemRepository.delete(item);
+
+        return "Item successfully deleted.";
+    }
+
     private Specification<Item> constructSpecification(ItemFilterRequest request) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
