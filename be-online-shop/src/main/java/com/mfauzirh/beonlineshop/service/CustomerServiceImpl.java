@@ -4,6 +4,7 @@ import com.mfauzirh.beonlineshop.dto.*;
 import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.repository.CustomerRepository;
 import com.mfauzirh.beonlineshop.util.MinioUtil;
+import com.mfauzirh.beonlineshop.util.PageableUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import kotlin.Pair;
@@ -28,11 +29,13 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final MinioUtil minioUtil;
+    private final PageableUtil pageableUtil;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, MinioUtil minioUtil) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, MinioUtil minioUtil, PageableUtil pageableUtil) {
         this.customerRepository = customerRepository;
         this.minioUtil = minioUtil;
+        this.pageableUtil = pageableUtil;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Pair<List<CustomerPreviewResponse>, Integer> getAllCustomers(CustomerFilterRequest request) {
-        Pageable pageable = constructPageable(request.getPageNumber(), request.getPageSize(), request.getSortBy());
+        Pageable pageable = pageableUtil.constructPageable(request.getPageNumber(), request.getPageSize(), request.getSortBy());
         Specification<Customer> spec = constructSpecification(request);
 
         int total = (int) customerRepository.count(spec);
@@ -111,28 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
         return "Successfully deleted (soft) customer";
     }
 
-    private Sort extractSortCriteria(String sortBy) {
-        String[] sort = sortBy.split(",");
-        String field = sort[0];
-        String direction = sort.length > 1 ? sort[1] : "asc";
-
-        return Sort.by(direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, field);
-    }
-
-    private Pageable constructPageable(Integer pageNumberOpt, Integer pageSizeOpt, String sortByString) {
-        int pageNumber = Optional.ofNullable(pageNumberOpt).orElse(1) - 1;
-        int pageSize = Optional.ofNullable(pageSizeOpt).orElse(10);
-        Sort sortBy = extractSortCriteria(Optional.ofNullable(sortByString).orElse("customerName,asc"));
-
-        return PageRequest.of(
-                pageNumber,
-                pageSize,
-                sortBy
-        );
-    }
-
     private Specification<Customer> constructSpecification(CustomerFilterRequest request) {
-        log.warn("Customer Id : {}", request.getCustomerId());
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -143,8 +125,6 @@ public class CustomerServiceImpl implements CustomerService {
                     .ifPresent(name -> predicates.add(cb.like(cb.lower(root.get("customerName")), "%" + name.toLowerCase() + "%")));
             Optional.ofNullable(request.getCustomerAddress())
                     .ifPresent(address -> predicates.add(cb.like(cb.lower(root.get("customerAddress")), "%" + address.toLowerCase() + "%")));
-//            Optional.ofNullable(request.getCustomerPhone())
-//                    .ifPresent(phoneNumber -> predicates.add(cb.like(cb.lower(root.get("customerPhone")), "%" + phoneNumber.toLowerCase() + "%")));
             //Optional.ofNullable(request.customerCode())
             //        .ifPresent(code -> predicates.add(cb.like(cb.lower(root.get("customerCode")), "%" + code.toLowerCase() + "%")));
 
