@@ -10,4 +10,5 @@ public interface CustomerService {
     Pair<List<CustomerPreviewResponse>, Integer> getAllCustomers(CustomerFilterRequest request);
     CustomerResponse getCustomerById(long customerId);
     String updateCustomer(long customerId, CustomerUpdateRequest request);
+    String deleteCustomer(long customerId);
 }

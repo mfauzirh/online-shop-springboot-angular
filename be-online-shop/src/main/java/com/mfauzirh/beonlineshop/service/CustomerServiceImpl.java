@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponse getCustomerById(long customerId) {
-        Customer customer = customerRepository.findById(customerId)
+        Customer customer = customerRepository.findByCustomerIdAndIsActiveTrue(customerId)
                 .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
         return convertToCustomerResponse(customer);
     }
@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
     @SneakyThrows
     @Override
     public String updateCustomer(long customerId, CustomerUpdateRequest request) {
-        Customer customer = customerRepository.findById(customerId)
+        Customer customer = customerRepository.findByCustomerIdAndIsActiveTrue(customerId)
                 .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
 
         if (request.getPic() != null) {
@@ -98,6 +98,17 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         return "Successfully updated customer";
+    }
+
+    @Override
+    public String deleteCustomer(long customerId) {
+        Customer customer = customerRepository.findByCustomerIdAndIsActiveTrue(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
+
+        customer.setIsActive(false);
+        customerRepository.save(customer);
+
+        return "Successfully deleted (soft) customer";
     }
 
     private Sort extractSortCriteria(String sortBy) {

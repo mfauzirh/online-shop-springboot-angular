@@ -64,4 +64,15 @@ public class CustomerController {
         return ResponseEntity.ok(
                 new BaseResponse<>(result, HttpStatus.OK));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> deleteCustomer(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id
+    ) {
+        String result = customerService.deleteCustomer(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }
