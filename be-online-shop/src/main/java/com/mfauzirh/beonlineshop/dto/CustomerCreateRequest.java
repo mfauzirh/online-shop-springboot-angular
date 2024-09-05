@@ -1,5 +1,8 @@
 package com.mfauzirh.beonlineshop.dto;
 
+import com.mfauzirh.beonlineshop.validator.FileExtension;
+import com.mfauzirh.beonlineshop.validator.FileSize;
+import com.mfauzirh.beonlineshop.validator.PhoneNumber;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,9 +25,11 @@ public class CustomerCreateRequest {
     private String customerAddress;
 
     @NotBlank(message = "Customer phone is required")
+    @PhoneNumber
     private String customerPhone;
 
     @Nullable
-    // To do make file extension anotation
+    @FileExtension(extensions = {"jpg", "jpeg", "png"}, message = "Only .jpg, .jpeg, and .png files are allowed")
+    @FileSize(max = 2, message = "File size must not exceed 1 MB")
     private MultipartFile pic;
 }

@@ -15,6 +15,7 @@ import java.util.List;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    // handles errors caused by failed validations such as model bindings in the controller
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<BaseResponse<String>> handleValidationException(MethodArgumentNotValidException ex) {
         List<String> errors = new ArrayList<>();
@@ -26,6 +27,7 @@ public class GlobalExceptionHandler {
         );
     }
 
+    // handles errors caused by failed validations such as model bindings in the controller
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<BaseResponse<String>> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
         List<String> errors = new ArrayList<>();
@@ -34,5 +36,13 @@ public class GlobalExceptionHandler {
         log.error("Validation errors occur : {}", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new BaseResponse<>(String.join(", ", errors), HttpStatus.BAD_REQUEST));
+    }
+
+    // handles other error that occurred
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<BaseResponse<String>> handleOtherException(Exception ex) {
+        log.error("An unexpected error occurred");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new BaseResponse<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }
