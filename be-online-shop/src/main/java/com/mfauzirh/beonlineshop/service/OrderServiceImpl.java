@@ -101,6 +101,7 @@ public class OrderServiceImpl implements OrderService{
 
     // Assume only can change order quantity
     @Override
+    @Transactional
     public String updateOrder(long orderId, OrderUpdateRequest request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " doesn't exists"));
@@ -125,6 +126,20 @@ public class OrderServiceImpl implements OrderService{
         itemRepository.save(item);
 
         return "Order updated successfully";
+    }
+
+    @Override
+    @Transactional
+    public String deleteOrder(long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " doesn't exists"));
+        Item item = order.getItem();
+
+        item.setStock(item.getStock() + order.getQuantity());
+        itemRepository.save(item);
+        orderRepository.delete(order);
+
+        return "Order deleted successfully";
     }
 
     private Specification<Order> constructSpecification(OrderFilterRequest request) {

@@ -10,4 +10,5 @@ public interface OrderService {
     Pair<List<OrderPreviewResponse>, Integer> getAllOrders(OrderFilterRequest request);
     OrderResponse getOrderById(long orderId);
     String updateOrder(long orderId, OrderUpdateRequest request);
+    String deleteOrder(long orderId);
 }

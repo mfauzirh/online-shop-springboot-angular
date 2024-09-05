@@ -62,4 +62,15 @@ public class OrderController {
         return ResponseEntity.ok(
                 new BaseResponse<>(result, HttpStatus.OK));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> deleteOrder(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id
+    ) {
+        String result = orderService.deleteOrder(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }
