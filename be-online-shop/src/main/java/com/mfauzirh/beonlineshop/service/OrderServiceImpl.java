@@ -5,6 +5,7 @@ import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.entity.Item;
 import com.mfauzirh.beonlineshop.entity.Order;
 import com.mfauzirh.beonlineshop.exception.InsufficientStockException;
+import com.mfauzirh.beonlineshop.exception.InvalidQuantityUpdate;
 import com.mfauzirh.beonlineshop.repository.CustomerRepository;
 import com.mfauzirh.beonlineshop.repository.ItemRepository;
 import com.mfauzirh.beonlineshop.repository.OrderRepository;
@@ -14,16 +15,14 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import kotlin.Pair;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -98,6 +97,34 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " doesn't exists"));
 
         return convertToOrderResponse(order);
+    }
+
+    // Assume only can change order quantity
+    @Override
+    public String updateOrder(long orderId, OrderUpdateRequest request) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " doesn't exists"));
+
+        // if equal than before -- throw error
+        if (Objects.equals(request.getQuantity(), order.getQuantity())) {
+            throw new InvalidQuantityUpdate("Can't update the same quantity as before");
+        }
+
+        int quantityChange = request.getQuantity() - order.getQuantity();
+        Item item = order.getItem();
+
+        if (quantityChange > 0 && item.getStock() < quantityChange) {
+            throw new InsufficientStockException("Insufficient stock for the item");
+        }
+
+        item.setStock(item.getStock() - quantityChange); // adjust stock
+
+        order.setQuantity(request.getQuantity());
+
+        orderRepository.save(order);
+        itemRepository.save(item);
+
+        return "Order updated successfully";
     }
 
     private Specification<Order> constructSpecification(OrderFilterRequest request) {

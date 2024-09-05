@@ -50,4 +50,16 @@ public class OrderController {
         return ResponseEntity.ok(
                 new BaseResponse<>(item, "Success retrieve order data", HttpStatus.OK));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> updateOrder(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id,
+            @Valid @RequestBody OrderUpdateRequest request
+    ) {
+        String result = orderService.updateOrder(id, request);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }
