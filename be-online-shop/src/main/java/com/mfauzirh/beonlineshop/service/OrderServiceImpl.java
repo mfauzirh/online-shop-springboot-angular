@@ -1,9 +1,6 @@
 package com.mfauzirh.beonlineshop.service;
 
-import com.mfauzirh.beonlineshop.dto.ItemFilterRequest;
-import com.mfauzirh.beonlineshop.dto.OrderCreateRequest;
-import com.mfauzirh.beonlineshop.dto.OrderFilterRequest;
-import com.mfauzirh.beonlineshop.dto.OrderPreviewResponse;
+import com.mfauzirh.beonlineshop.dto.*;
 import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.entity.Item;
 import com.mfauzirh.beonlineshop.entity.Order;
@@ -95,6 +92,14 @@ public class OrderServiceImpl implements OrderService{
         return new Pair<>(orders, total);
     }
 
+    @Override
+    public OrderResponse getOrderById(long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " doesn't exists"));
+
+        return convertToOrderResponse(order);
+    }
+
     private Specification<Order> constructSpecification(OrderFilterRequest request) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -117,6 +122,25 @@ public class OrderServiceImpl implements OrderService{
                 .quantity(order.getQuantity())
                 .customerName(order.getCustomer().getCustomerName())
                 .itemName(order.getItem().getItemName())
+                .build();
+    }
+
+    private OrderResponse convertToOrderResponse(Order order) {
+        return OrderResponse.builder()
+                .orderId(order.getOrderId())
+                .orderCode(order.getOrderCode())
+                .orderDate(order.getOrderDate())
+                .totalPrice(order.getTotalPrice())
+                .quantity(order.getQuantity())
+                .customerId(order.getCustomer().getCustomerId())
+                .customerName(order.getCustomer().getCustomerName())
+                .customerAddress(order.getCustomer().getCustomerAddress())
+                .customerPhone(order.getCustomer().getCustomerPhone())
+                .customerPic(order.getCustomer().getPic())
+                .itemId(order.getItem().getItemId())
+                .itemName(order.getItem().getItemName())
+                .stock(order.getItem().getStock())
+                .price(order.getItem().getPrice())
                 .build();
     }
 }

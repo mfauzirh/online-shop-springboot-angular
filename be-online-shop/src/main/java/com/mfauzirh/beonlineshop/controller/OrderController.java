@@ -4,6 +4,8 @@ import com.mfauzirh.beonlineshop.dto.*;
 import com.mfauzirh.beonlineshop.service.OrderService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import kotlin.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +38,16 @@ public class OrderController {
 
         return ResponseEntity.ok(
                 new BaseResponse<>(pair.getFirst(), "Success retrieve order datas", HttpStatus.OK, pair.getSecond()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<OrderResponse>> getOrderById(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id
+    ) {
+        OrderResponse item = orderService.getOrderById(id);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(item, "Success retrieve order data", HttpStatus.OK));
     }
 }

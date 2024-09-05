@@ -18,6 +18,13 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private Long totalPrice;
     private Integer quantity;
-    private CustomerResponse customer;
-    private ItemResponse item;
+    private Long customerId;
+    private String customerName;
+    private String customerAddress;
+    private String customerPic;
+    private String customerPhone;
+    private Long itemId;
+    private String itemName;
+    private Integer stock;
+    private Long price;
 }
