@@ -1,9 +1,6 @@
 package com.mfauzirh.beonlineshop.service;
 
-import com.mfauzirh.beonlineshop.dto.CustomerCreateRequest;
-import com.mfauzirh.beonlineshop.dto.CustomerFilterRequest;
-import com.mfauzirh.beonlineshop.dto.CustomerPreviewResponse;
-import com.mfauzirh.beonlineshop.dto.CustomerResponse;
+import com.mfauzirh.beonlineshop.dto.*;
 import com.mfauzirh.beonlineshop.entity.Customer;
 import com.mfauzirh.beonlineshop.repository.CustomerRepository;
 import com.mfauzirh.beonlineshop.util.MinioUtil;
@@ -41,16 +38,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @SneakyThrows
     public String createCustomer(CustomerCreateRequest request) {
-        var customer = new Customer()
+        var customer = Customer.builder()
                 .customerName(request.getCustomerName())
                 .customerAddress(request.getCustomerAddress())
-                .customerPhone(request.getCustomerPhone());
+                .customerPhone(request.getCustomerPhone())
+                .build();
 
         if (request.getPic() != null) {
             String timestamp = String.valueOf(Instant.now().toEpochMilli());;
             String fileName = timestamp + "_" + request.getPic().getOriginalFilename();
             minioUtil.uploadImage(request.getPic(), fileName);
-            customer.pic(fileName);
+            customer.setPic(fileName);
         }
 
         customerRepository.save(customer);
@@ -77,6 +75,29 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
         return convertToCustomerResponse(customer);
+    }
+
+    @SneakyThrows
+    @Override
+    public String updateCustomer(long customerId, CustomerUpdateRequest request) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with id " + customerId + " is not exists."));
+
+        if (request.getPic() != null) {
+            minioUtil.removeImage(customer.getPic());
+            String timestamp = String.valueOf(Instant.now().toEpochMilli());;
+            String fileName = timestamp + "_" + request.getPic().getOriginalFilename();
+            minioUtil.uploadImage(request.getPic(), fileName);
+            customer.setPic(fileName);
+        }
+
+        customer.setCustomerName(request.getCustomerName());
+        customer.setCustomerAddress(request.getCustomerAddress());
+        customer.setCustomerPhone(request.getCustomerPhone());
+
+        customerRepository.save(customer);
+
+        return "Successfully updated customer";
     }
 
     private Sort extractSortCriteria(String sortBy) {
@@ -122,23 +143,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     private CustomerPreviewResponse convertToCustomerPreviewResponse(Customer customer) {
         return  CustomerPreviewResponse.builder()
-                .customerId(customer.customerId())
-                .customerName(customer.customerName())
-                .customerAddress(customer.customerAddress())
-                .customerCode(customer.customerCode())
+                .customerId(customer.getCustomerId())
+                .customerName(customer.getCustomerName())
+                .customerAddress(customer.getCustomerAddress())
+                .customerCode(customer.getCustomerCode())
                 .build();
     }
 
     private CustomerResponse convertToCustomerResponse(Customer customer) {
         return  CustomerResponse.builder()
-                .customerId(customer.customerId())
-                .customerName(customer.customerName())
-                .customerAddress(customer.customerAddress())
-                .customerCode(customer.customerCode())
-                .customerPhone(customer.customerPhone())
-                .isActive(customer.isActive())
-                .lastOrderDate(customer.lastOrderDate())
-                .pic(minioUtil.getImageUrl(customer.pic()))
+                .customerId(customer.getCustomerId())
+                .customerName(customer.getCustomerName())
+                .customerAddress(customer.getCustomerAddress())
+                .customerCode(customer.getCustomerCode())
+                .customerPhone(customer.getCustomerPhone())
+                .isActive(customer.getIsActive())
+                .lastOrderDate(customer.getLastOrderDate())
+                .pic(minioUtil.getImageUrl(customer.getPic()))
                 .build();
     }
 }

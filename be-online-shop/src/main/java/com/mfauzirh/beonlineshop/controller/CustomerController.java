@@ -52,4 +52,16 @@ public class CustomerController {
         return ResponseEntity.ok(
                 new BaseResponse<>(customer, "Successfully retrieve user data", HttpStatus.OK));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BaseResponse<String>> updateCustomer(
+            @PathVariable @NotNull @PositiveOrZero(message = "Id must greater or equal zero")
+            long id,
+            CustomerUpdateRequest request
+    ) {
+        String result = customerService.updateCustomer(id, request);
+
+        return ResponseEntity.ok(
+                new BaseResponse<>(result, HttpStatus.OK));
+    }
 }

@@ -3,6 +3,7 @@ package com.mfauzirh.beonlineshop.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "customers")
-@Accessors(fluent = true)
+@Builder
 public class Customer {
     @Id
     @GeneratedValue
