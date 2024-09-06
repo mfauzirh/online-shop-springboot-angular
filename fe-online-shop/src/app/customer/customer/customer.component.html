@@ -1,3 +1,11 @@
 <div class="row customer-list-container table-responsive">
-  <app-customer-list></app-customer-list>
+  <app-customer-list 
+    [customers]="paginatedCustomers">
+  </app-customer-list>
+  <app-pagination 
+    [page]="page"
+    [pageSize]="pageSize"
+    [totalItems]="customers.length"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
 </div>

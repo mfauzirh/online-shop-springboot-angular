@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let customer of paginatedCustomers">
+      <tr *ngFor="let customer of customers">
         <td>
           <div class="d-flex align-items-center">
             <img
@@ -51,42 +51,3 @@
       </tr>
     </tbody>
   </table>
-  <app-pagination 
-    [page]="page"
-    [pageSize]="pageSize"
-    [totalItems]="customers.length"
-    (pageChange)="onPageChange($event)">
-  </app-pagination>
-  <!-- Pagination -->
-<!-- <nav>
-  <ul class="pagination justify-content-center">
-    <li class="page-item" [class.disabled]="page === 1">
-      <button class="page-link" (click)="changePage(1)">First</button>
-    </li>
-    <li class="page-item" [class.disabled]="page === 1">
-      <button class="page-link" (click)="changePage(page - 1)">Previous</button>
-    </li>
-    <li class="page-item" *ngIf="visiblePages[0] !== 1">
-      <button class="page-link" (click)="changePage(1)">1</button>
-    </li>
-    <li class="page-item" *ngIf="visiblePages[0] > 2">
-      <span class="page-link">...</span>
-    </li>
-    <li class="page-item" *ngFor="let pg of visiblePages" [class.active]="pg === page">
-      <button class="page-link" *ngIf="pg !== -1" (click)="changePage(pg)">{{ pg }}</button>
-      <span class="page-link" *ngIf="pg === -1">...</span>
-    </li>
-    <li class="page-item" *ngIf="visiblePages[visiblePages.length - 1] < totalPages - 1">
-      <span class="page-link">...</span>
-    </li>
-    <li class="page-item" *ngIf="visiblePages[visiblePages.length - 1] !== totalPages">
-      <button class="page-link" (click)="changePage(totalPages)">{{ totalPages }}</button>
-    </li>
-    <li class="page-item" [class.disabled]="page === totalPages">
-      <button class="page-link" (click)="changePage(page + 1)">Next</button>
-    </li>
-    <li class="page-item" [class.disabled]="page === totalPages">
-      <button class="page-link" (click)="changePage(totalPages)">Last</button>
-    </li>
-  </ul>
-</nav> -->
