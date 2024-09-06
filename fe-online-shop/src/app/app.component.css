@@ -1,0 +1,30 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+header {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.main-container {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.main-content {
+  width: 90%;
+}
