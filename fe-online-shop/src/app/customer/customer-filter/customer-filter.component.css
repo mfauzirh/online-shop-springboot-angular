@@ -1,0 +1,43 @@
+.filter-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-container {
+  margin-bottom: 1rem;
+}
+
+.search {
+  width: 50% !important;
+}
+
+@media (max-width: 900px) {
+  .filter-container {
+    flex-direction: column;
+  }
+
+  .sort {
+    width: 96%;
+    margin-bottom: 20px;
+    background-color: red;
+  }
+
+  .search {
+    width: 100% !important;
+    align-items: center;
+  }
+
+  
+  }
+
+
+@media (max-width: 600px) {
+  .search div:first-child {
+    margin-bottom: 20px;
+  }
+
+  .search div:last-child button {
+    margin-top: 20px;
+  }
+}

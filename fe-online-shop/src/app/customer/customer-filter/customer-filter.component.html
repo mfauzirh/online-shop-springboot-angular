@@ -1,0 +1,51 @@
+<div class="filter-container mt-2 mb-4">
+  <div class="sort form-group row d-flex align-items-center">
+    <label 
+      class="col" 
+      for="sortBy">
+      Sort Criteria</label>
+    <select 
+    style="width: 180px;"
+      class="col form-control"
+      id="sortBy"
+      [(ngModel)]="selectedSort" 
+      (change)="onSort()"
+    >
+      <option *ngFor="let option of sortOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+
+  <div class="search form-group row">
+    <div class="col-sm-4 d-flex align-items-center">
+      <label 
+        for="searchByInput">
+        Search By</label>
+      <select 
+        id="searchByInput"
+        class="col form-control ms-2" 
+        [(ngModel)]="searchBy"
+      >
+        <option value="customerName">Name</option>
+        <option value="customerAddress">Address</option>
+        <option value="customerCode">Code</option>
+      </select>
+    </div>
+
+    <div class="col-sm-6">
+      <input 
+        class="col form-control"
+        type="text" 
+        [(ngModel)]="searchValue" 
+        placeholder="Search">
+    </div>
+
+    <div class="col-sm-2 d-flex justify-content-end">
+      <button 
+        class="btn btn-primary col" 
+        (click)="onSearch()"
+      >Search</button>
+    </div>
+  </div>
+</div>

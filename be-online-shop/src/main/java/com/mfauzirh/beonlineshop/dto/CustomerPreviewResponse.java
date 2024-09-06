@@ -16,5 +16,6 @@ public class CustomerPreviewResponse {
     private Long customerId;
     private String customerName;
     private String customerAddress;
-    private UUID customerCode = UUID.randomUUID();
+    private UUID customerCode;
+    private String pic;
 }

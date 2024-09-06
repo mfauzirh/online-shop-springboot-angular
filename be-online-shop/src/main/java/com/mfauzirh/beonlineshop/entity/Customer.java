@@ -37,7 +37,7 @@ public class Customer {
     private String customerPhone;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive = true;
+    private Boolean isActive;
 
     @Column(name="last_order_date")
     private LocalDateTime lastOrderDate;

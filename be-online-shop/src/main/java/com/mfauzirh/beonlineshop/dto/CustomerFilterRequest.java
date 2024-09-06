@@ -20,7 +20,6 @@ public class CustomerFilterRequest {
     private Long customerId;
 
     @Nullable
-    @Size(min = 1, max = 255, message = "Customer name must be between 1 and 255 characters")
     private String customerName;
 
     @Nullable

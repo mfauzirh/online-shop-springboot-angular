@@ -44,6 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .customerAddress(request.getCustomerAddress())
                 .customerPhone(request.getCustomerPhone())
                 .customerCode(UUID.randomUUID())
+                .isActive(true)
                 .build();
         log.warn("customer saved data : {}", customer);
         if (request.getPic() != null) {
@@ -137,6 +138,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .customerName(customer.getCustomerName())
                 .customerAddress(customer.getCustomerAddress())
                 .customerCode(customer.getCustomerCode())
+                .pic(minioUtil.getImageUrl(customer.getPic()))
                 .build();
     }
 
