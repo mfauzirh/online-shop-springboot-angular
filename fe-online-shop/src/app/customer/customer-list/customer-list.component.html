@@ -51,9 +51,14 @@
       </tr>
     </tbody>
   </table>
-
+  <app-pagination 
+    [page]="page"
+    [pageSize]="pageSize"
+    [totalItems]="customers.length"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
   <!-- Pagination -->
-<nav>
+<!-- <nav>
   <ul class="pagination justify-content-center">
     <li class="page-item" [class.disabled]="page === 1">
       <button class="page-link" (click)="changePage(1)">First</button>
@@ -84,4 +89,4 @@
       <button class="page-link" (click)="changePage(totalPages)">Last</button>
     </li>
   </ul>
-</nav>
+</nav> -->
