@@ -5,6 +5,7 @@ import com.mfauzirh.beonlineshop.validator.FileSize;
 import com.mfauzirh.beonlineshop.validator.PhoneNumber;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class CustomerUpdateRequest {
     @PhoneNumber
     private String customerPhone;
 
-    @Nullable
+    @NotNull(message = "Customer picture is required")
     @FileExtension(extensions = {"jpg", "jpeg", "png"}, message = "Only .jpg, .jpeg, and .png files are allowed")
     @FileSize(max = 2, message = "File size must not exceed 1 MB")
     private MultipartFile pic;

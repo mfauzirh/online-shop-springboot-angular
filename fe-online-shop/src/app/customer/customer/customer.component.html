@@ -1,5 +1,8 @@
 <div class="row customer-list-container table-responsive">
-  <h3 class="mt-4">User Management</h3>
+  <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
+    <h3>User Management</h3>
+    <button class="btn btn-primary" style="height: 40px;" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
+  </div>
   <app-customer-filter
     (search)="onSearch($event)"
     (sort)="onSort($event)">
@@ -17,4 +20,6 @@
     [totalItems]="total"
     (pageChange)="onPageChange($event)">
   </app-pagination>
+
+  <app-customer-add-form (formSubmit)="onFormSubmit()"></app-customer-add-form>
 </div>

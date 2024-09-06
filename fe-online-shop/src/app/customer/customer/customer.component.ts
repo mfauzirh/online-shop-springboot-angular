@@ -69,4 +69,8 @@ export class CustomerComponent implements OnInit {
     this.page = 1; // Reset to first page on new sort
     this.fetchCustomers();
   }
+
+  onFormSubmit() {
+    this.fetchCustomers();
+  }
 }
