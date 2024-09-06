@@ -1,20 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-customer-add-form',
-  templateUrl: './customer-add-form.component.html',
-  styleUrl: './customer-add-form.component.css'
+  selector: 'app-customer-update-form',
+  templateUrl: './customer-update-form.component.html',
+  styleUrl: './customer-update-form.component.css'
 })
-export class CustomerAddFormComponent {
-  @Output() formSubmit = new EventEmitter<void>();
-
+export class CustomerUpdateFormComponent {
   customerForm: FormGroup;
   previewUrl: string | ArrayBuffer | null = null;
+  @Output() formSubmit = new EventEmitter<void>();
 
-  constructor(private builder: FormBuilder, private http: HttpClient) {
-    this.customerForm = this.builder.group({
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.customerForm = this.fb.group({
       customerName: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]],
       customerAddress: ['', Validators.required],
       customerPhone: ['', [Validators.required, Validators.pattern('^[0-9]{10,15}$')]],
@@ -32,10 +31,12 @@ export class CustomerAddFormComponent {
       formData.append('pic', this.customerForm.get('pic')?.value);
 
       this.http.post('http://localhost:8080/customers', formData).subscribe(response => {
+        console.log('Customer added successfully', response);
         this.formSubmit.emit();
         this.closeModal();
         this.customerForm.reset();
-        this.previewUrl = null;
+        
+        this.previewUrl = null; // Clear image preview
       }, error => {
         console.error('Error adding customer', error);
       });
@@ -70,7 +71,7 @@ export class CustomerAddFormComponent {
   }
 
   closeModal() {
-    const modalElement = document.getElementById('addCustomerModal');
+    const modalElement = document.getElementById('updateCustomerModal');
     if (modalElement) {
       modalElement.classList.remove('show');
       modalElement.style.display = 'none';

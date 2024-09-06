@@ -5,14 +5,23 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './customer-filter.component.css'
 })
 export class CustomerFilterComponent {
-  searchValue = '';
-  searchBy = 'customerName'; // Default search criterion
-  sortOptions = ['customerName,asc', 'customerName,desc', 'customerAddress,asc', 'customerAddress,desc', 'customerCode,asc', 'customerCode,desc'];
-  selectedSort = 'customerName,asc';
-
   @Output() search = new EventEmitter<any>();
   @Output() sort = new EventEmitter<string>();
 
+  searchValue = '';
+  searchBy = 'customerName';
+  sortOptions = [
+    'customerName,asc', 
+    'customerName,desc', 
+    'customerAddress,asc', 
+    'customerAddress,desc', 
+    'customerCode,asc', 
+    'customerCode,desc'
+  ];
+  selectedSort = 'customerName,asc';
+
+  // When search is triggered
+  // Send filter criteria to parent for re-fetching customer with filter criteria
   onSearch(): void {
     const searchParams = {
       searchValue: this.searchValue,
@@ -21,6 +30,8 @@ export class CustomerFilterComponent {
     this.search.emit(searchParams);
   }
 
+  // When sort is changed
+  // Send sort criteria to parent for re-fetching customer with new sort criteria
   onSort(): void {
     this.sort.emit(this.selectedSort);
   }

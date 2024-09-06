@@ -26,6 +26,7 @@ export class PaginationComponent implements OnChanges {
     this.visiblePages = this.getVisiblePages();
   }
 
+  // Limit the number of page show in pagination,
   getVisiblePages(): number[] {
     const pages: number[] = [];
     const totalPages = this.totalPages;
@@ -59,6 +60,7 @@ export class PaginationComponent implements OnChanges {
     return pages;
   }
 
+  // Send the new page request to parent
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.page = page;

@@ -1,5 +1,5 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 interface CustomerPreviewResponse {
   customerId: number;
@@ -23,6 +23,8 @@ interface CustomerApiResponse {
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent implements OnInit {
+  @ViewChild('addCustomerModal') addCustomerModal!: ElementRef;
+
   customers: CustomerPreviewResponse[] = [];
   total = 0;
   page = 1;
@@ -32,6 +34,8 @@ export class CustomerComponent implements OnInit {
     searchValue: '',
     searchBy: '' // Default search criterion
   };
+
+  updatedCustomerId : number | undefined;
 
   constructor(private http: HttpClient) {}
 
@@ -58,19 +62,35 @@ export class CustomerComponent implements OnInit {
     this.fetchCustomers();
   }
 
+  // Set the new search criteria and using it to re-fetch the customer
   onSearch(searchParams: any): void {
     this.searchParams = searchParams;
-    this.page = 1; // Reset to first page on new search
+    this.page = 1;
     this.fetchCustomers();
   }
 
+  // Set the new sort criteria and using it to re-fetch the customer
   onSort(sortBy: string): void {
     this.sortBy = sortBy;
-    this.page = 1; // Reset to first page on new sort
+    this.page = 1;
     this.fetchCustomers();
   }
 
   onFormSubmit() {
+    this.fetchCustomers();
+  }
+  
+  onCustomerUpdated(customerId : number) {
+    this.updatedCustomerId = customerId;
+    console.log("Customer with id " + customerId + "is request updated")
+    if (this.addCustomerModal) {
+      const modal = new (window as any).bootstrap.Modal(this.addCustomerModal.nativeElement);
+      modal.show();
+    }
+  }
+
+  onCustomerDeleted() {
+    console.log("event retrieved")
     this.fetchCustomers();
   }
 }

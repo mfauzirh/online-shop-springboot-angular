@@ -1,11 +1,13 @@
 <div class="filter-container mt-2 mb-4">
+
+  <!-- Sort input container -->
   <div class="sort form-group row d-flex align-items-center">
     <label 
       class="col" 
-      for="sortBy">
-      Sort Criteria</label>
+      for="sortBy"
+    >Sort Criteria</label>
     <select 
-    style="width: 180px;"
+      style="width: 180px;"
       class="col form-control"
       id="sortBy"
       [(ngModel)]="selectedSort" 
@@ -17,11 +19,12 @@
     </select>
   </div>
 
+  <!-- Search input container -->
   <div class="search form-group row">
+
+    <!-- Search By Criteria -->
     <div class="col-sm-4 d-flex align-items-center">
-      <label 
-        for="searchByInput">
-        Search By</label>
+      <label for="searchByInput">Search By</label>
       <select 
         id="searchByInput"
         class="col form-control ms-2" 
@@ -33,6 +36,7 @@
       </select>
     </div>
 
+    <!-- Search input field -->
     <div class="col-sm-6">
       <input 
         class="col form-control"
@@ -41,6 +45,7 @@
         placeholder="Search">
     </div>
 
+    <!-- Search button -->
     <div class="col-sm-2 d-flex justify-content-end">
       <button 
         class="btn btn-primary col" 

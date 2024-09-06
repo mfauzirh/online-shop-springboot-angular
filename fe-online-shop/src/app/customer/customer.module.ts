@@ -7,6 +7,9 @@ import { CustomerFilterComponent } from './customer-filter/customer-filter.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from '../modal/modal.component';
 import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.component';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { RouterLink } from '@angular/router';
+import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
 
 @NgModule({
   declarations: [
@@ -14,13 +17,16 @@ import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.
     CustomerListComponent, 
     PaginationComponent,
     CustomerFilterComponent,
-    CustomerAddFormComponent
+    CustomerAddFormComponent,
+    CustomerUpdateFormComponent,
+    CustomerDetailComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ModalComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   exports: [
     CustomerComponent

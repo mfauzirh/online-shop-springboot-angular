@@ -3,23 +3,31 @@
     <h3>User Management</h3>
     <button class="btn btn-primary" style="height: 40px;" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
   </div>
+
+  <!-- Customer Filter Component -->
   <app-customer-filter
     (search)="onSearch($event)"
-    (sort)="onSort($event)">
-  </app-customer-filter>
+    (sort)="onSort($event)"
+  ></app-customer-filter>
 
+  <!-- Customer List Component -->
   <app-customer-list 
     [customers]="customers"
     [page]="page"
-    [pageSize]="pageSize">
-  </app-customer-list>
+    [pageSize]="pageSize"
+    (customerUpdated)="onCustomerUpdated($event)"
+    (customerDeleted)="onCustomerDeleted()"
+  ></app-customer-list>
 
-  <app-pagination class="mt-4" 
+  <!-- Pagination Component -->
+  <app-pagination 
+    class="mt-4" 
     [page]="page"
     [pageSize]="pageSize"
     [totalItems]="total"
-    (pageChange)="onPageChange($event)">
-  </app-pagination>
+    (pageChange)="onPageChange($event)"
+  ></app-pagination>
 
+  <!-- Customer Create Modal -->
   <app-customer-add-form (formSubmit)="onFormSubmit()"></app-customer-add-form>
 </div>

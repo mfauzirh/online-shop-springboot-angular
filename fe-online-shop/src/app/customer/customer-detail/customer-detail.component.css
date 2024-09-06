@@ -1,0 +1,9 @@
+/* customer-detail.component.css */
+.container {
+  max-width: 800px;
+}
+
+.img-fluid {
+  max-height: 200px;
+  border: 1px solid #dee2e6;
+}
