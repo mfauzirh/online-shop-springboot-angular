@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavBarComponent } from "./nav-bar/nav-bar.component";
-import { FooterComponent } from "./footer/footer.component";
-import { CustomerModule } from './customer/customer.module';
+import { NavBarComponent } from './shared/footer/nav-bar/nav-bar.component';
+import { FooterComponent } from "./shared/footer/footer.component";
+import { CustomerModule } from './features/customer/customer.module';
 
 @Component({
   selector: 'app-root',

@@ -1,21 +1,7 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
-interface CustomerPreviewResponse {
-  customerId: number;
-  customerName: string;
-  customerAddress: string;
-  customerCode: string;
-  pic: string;
-}
-
-interface CustomerApiResponse {
-  total: number | null,
-  data: CustomerPreviewResponse[],
-  message: string,
-  statusCode: number,
-  status: string;
-}
+import { CustomerPreviewResponse } from '../../models/customer-preview-response.model';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
   selector: 'app-customer',
@@ -32,12 +18,12 @@ export class CustomerComponent implements OnInit {
   sortBy = 'customerName,asc';
   searchParams = {
     searchValue: '',
-    searchBy: '' // Default search criterion
+    searchBy: ''
   };
 
   updatedCustomerId : number | undefined;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private customerService: CustomerService) {}
 
   ngOnInit(): void {
     this.fetchCustomers();
@@ -50,11 +36,15 @@ export class CustomerComponent implements OnInit {
       .set('sortBy', this.sortBy)
       .set(this.searchParams.searchBy, this.searchParams.searchValue); // Use the selected search criterion
     
-    this.http.get<CustomerApiResponse>('http://localhost:8080/customers', { params })
-      .subscribe(response => {
-        this.customers = response.data;
+    this.customerService.getAllCustomers(params).subscribe({
+      next: response => {
+        this.customers = response.data ?? [];
         this.total = response.total ?? 0;
-      });
+      },
+      error: error => {
+        console.log("Error fetching customers", error)
+      }
+    })
   }
 
   onPageChange(page: number): void {
