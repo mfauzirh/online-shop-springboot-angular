@@ -5,7 +5,7 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrl: './item.component.css'
+  styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements AfterViewInit {
   @ViewChild('modal1') modal1!: ModalComponent;
@@ -22,13 +22,23 @@ export class ItemComponent implements AfterViewInit {
       }
     });
 
-    this.eventBusService.modalEvents$.subscribe(({ name, event }) => {
+    this.eventBusService.modalEvents$.subscribe(({ name, event, payload }) => {
       if (event === 'action') {
-        this.onModalAction(name);
+        this.onModalAction(name, payload);
       } else if (event === 'close') {
         this.onModalClose(name);
       }
     });
+  }
+
+  openDeleteModal(id: number): void {
+    this.modal1.payload = { id }; // Set the payload
+    this.eventBusService.openModal('Modal 1');
+  }
+
+  openEditModal(id: number): void {
+    this.modal2.payload = { id }; // Set the payload
+    this.eventBusService.openModal('Modal 2');
   }
 
   openModal(name: string): void {
@@ -43,7 +53,11 @@ export class ItemComponent implements AfterViewInit {
     console.log(`${name} modal closed`);
   }
 
-  onModalAction(name: string): void {
-    console.log(`${name} modal action performed`);
+  onModalAction(name: string, payload?: any): void {
+    console.log(`${name} modal action performed with payload:`, payload);
+    if (payload) {
+      // Handle the payload (e.g., make an HTTP request with the ID)
+      // Example: this.http.delete(`/api/items/${payload.id}`).subscribe();
+    }
   }
 }

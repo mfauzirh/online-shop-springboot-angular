@@ -9,6 +9,7 @@ import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { RouterLink } from '@angular/router';
 import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CustomerUpdateFormComponent } from './customer-update-form/customer-upd
     CustomerDetailComponent
   ],
   imports: [
+    ModalComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

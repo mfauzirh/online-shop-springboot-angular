@@ -7,12 +7,13 @@ import { EventBusService } from '../../services/event-bus.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css'
+  styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
   @Input() name: string = '';
   @Input() isOpen = false;
   @Input() actionButtonText: string = 'Save changes';
+  @Input() payload: any; // Added to receive payload
   @Output() close = new EventEmitter<void>();
 
   constructor(private eventBusService: EventBusService) {}
@@ -32,7 +33,7 @@ export class ModalComponent implements OnInit {
   }
 
   onAction(): void {
-    this.eventBusService.publishModalAction(this.name, 'action');
+    this.eventBusService.publishModalAction(this.name, 'action', this.payload);
     // this.onClose(); // Close modal after action if needed
   }
 }

@@ -1,5 +1,5 @@
-<button class="btn btn-primary" (click)="openModal('Modal 1')">Open Modal 1</button>
-<button class="btn btn-primary" (click)="openModal('Modal 2')">Open Modal 2</button>
+<button class="btn btn-danger" (click)="openDeleteModal(123)">Delete Item</button> <!-- Example ID 123 -->
+<button class="btn btn-danger" (click)="openEditModal(22)">Delete Item</button> <!-- Example ID 123 -->
 
-<app-modal name="Modal 1" #modal1 actionButtonText="Save"></app-modal>
+<app-modal name="Modal 1" #modal1 actionButtonText="Delete" [payload]="modal1.payload"></app-modal>
 <app-modal name="Modal 2" #modal2 actionButtonText="Edit"></app-modal>

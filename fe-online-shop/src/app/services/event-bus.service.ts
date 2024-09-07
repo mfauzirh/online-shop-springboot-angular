@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 })
 export class EventBusService {
   private modalActions = new Subject<{ name: string, action: 'open' | 'close' }>();
-  private modalEvents = new Subject<{ name: string, event: 'open' | 'close' | 'action' }>();
+  private modalEvents = new Subject<{ name: string, event: 'open' | 'close' | 'action', payload?: any }>();
 
   modalActions$ = this.modalActions.asObservable();
   modalEvents$ = this.modalEvents.asObservable();
@@ -19,7 +19,7 @@ export class EventBusService {
     this.modalActions.next({ name, action: 'close' });
   }
 
-  publishModalAction(name: string, event: 'open' | 'close' | 'action') {
-    this.modalEvents.next({ name, event });
+  publishModalAction(name: string, event: 'open' | 'close' | 'action', payload?: any) {
+    this.modalEvents.next({ name, event, payload });
   }
 }
