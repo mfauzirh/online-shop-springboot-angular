@@ -1,0 +1,16 @@
+/* src/app/components/modal/modal.component.css */
+.modal.show {
+  display: block;
+}
+
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+
+.modal-content {
+  z-index: 1050;
+}
+
+.modal-backdrop {
+  z-index: 1040;
+}
