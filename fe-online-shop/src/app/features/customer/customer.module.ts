@@ -10,16 +10,18 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { RouterLink } from '@angular/router';
 import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { CustomerListItemComponent } from './customer-list-item/customer-list-item.component';
 
 @NgModule({
   declarations: [
     CustomerComponent, 
     CustomerListComponent, 
+    CustomerListItemComponent,
     PaginationComponent,
     CustomerFilterComponent,
     CustomerAddFormComponent,
     CustomerUpdateFormComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
   ],
   imports: [
     ModalComponent,

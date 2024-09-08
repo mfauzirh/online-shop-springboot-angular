@@ -1,0 +1,23 @@
+tr {
+  border: 1px solid #F0F3F7;
+  max-height: 10px;
+}
+
+td {
+  border-bottom: none;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+td:first-child {
+  padding-left: 40px;
+}
+
+td:last-child {
+  padding-right: 40px;
+}
+
+.customer-list-item {
+  width: 100%;
+  background-color: red;
+}
