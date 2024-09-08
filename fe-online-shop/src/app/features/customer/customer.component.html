@@ -28,11 +28,13 @@
     (pageChange)="onPageChange($event)"
   ></app-pagination>
 
+  <!-- Customer Edit/View/Add Modal -->
   <app-customer-modal
     #customerModal
     (formSubmit)="fetchCustomers()"
   ></app-customer-modal>
 
+  <!-- Customer delete modal -->
   <app-customer-delete-modal 
     #deleteCustomerModal 
     (customerDeleted)="fetchCustomers()"

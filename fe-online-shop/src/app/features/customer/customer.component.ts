@@ -12,9 +12,6 @@ import { CustomerModalComponent } from './customer-modal/customer-modal.componen
   styleUrl: './customer.component.css'
 })
 export class CustomerComponent implements OnInit, AfterViewInit {
-  @ViewChild('addCustomerModal') addCustomerModal!: ElementRef;
-  // @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
-
   @ViewChild('customerModal') customerModal!: CustomerModalComponent;
   @ViewChild('deleteCustomerModal') deleteCustomerModal!: CustomerDeleteModalComponent;
 
@@ -27,8 +24,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     searchValue: '',
     searchBy: ''
   };
-
-  deletedCustomerId : number | undefined;
   
   constructor(
     private customerService: CustomerService,
@@ -36,22 +31,24 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
+    // Subscribe to event that publish from other component to open modal (edit/view/add)
     this.eventBusService.customerActions$.subscribe(event => {
       if (event.action === 'view') {
         this.customerModal.openModal('view', event.payload);
       } else if (event.action === 'edit') {
         this.customerModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
-        this.deletedCustomerId = event.payload;
         this.deleteCustomerModal.openModal(event.payload);
       }
     });
   }
 
+  // On component initialization fetch customer data
   ngOnInit(): void {
     this.fetchCustomers();
   }
 
+  // On add customer button press, show customer modal with add mode
   onAddCustomer() : void {
     this.customerModal.openModal("add", null);
   }

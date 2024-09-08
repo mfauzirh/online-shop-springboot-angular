@@ -27,6 +27,8 @@ export class CustomerModalComponent {
     });
   }
 
+  // Based on form mode, make request to backend
+  // After that trigger form submitted event, so customer component can react to re-fetch new data
   onSubmit(event: Event) {
     event.preventDefault();
     if (this.customerForm.valid) {
@@ -64,6 +66,8 @@ export class CustomerModalComponent {
     }
   }
 
+  // Check violation of customer picture that inputted
+  // Also set image preview for image has been choosed
   onFileChange(event: any) {
     const file = event.target.files[0];
     const fileControl = this.customerForm.get('pic');
@@ -91,6 +95,9 @@ export class CustomerModalComponent {
     }
   }
 
+  // Open modal, and based on modal mode
+  // Fetch data if mode is edit/view,
+  // Just open if the mode is add new
   openModal(modalMode: string, customerId: number | null) {
     // If modal mode is edit / view, fetch customer data first
     if (modalMode !== 'add' && customerId) {
@@ -119,6 +126,7 @@ export class CustomerModalComponent {
     this.isOpen = true;
   }
 
+  // When close modal, set form value to default
   closeModal() {
     this.customerId = null;
     this.previewUrl = null;

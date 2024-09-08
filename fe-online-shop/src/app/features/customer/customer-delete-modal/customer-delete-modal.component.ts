@@ -14,6 +14,7 @@ export class CustomerDeleteModalComponent {
 
   constructor(private customerService: CustomerService) {}
 
+  // Assign customer id when modal is open
   openModal(customerId: number) {
     if(customerId) {
       this.customerId = customerId;
@@ -21,11 +22,14 @@ export class CustomerDeleteModalComponent {
     }
   }
 
+  // Set default customer id when modal is closed
   closeModal() {
     this.customerId = undefined;
     this.isOpen = false;
   }
 
+  // When delete executed, make request, then trigger customer deleted event 
+  // customer component will react and re-fetch the new data
   onDelete() {
     if (!this.customerId) {
       console.error("Customer id not set yet")
