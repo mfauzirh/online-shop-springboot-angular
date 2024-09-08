@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ItemPreviewResponse } from '../../../models/item-preview-response';
 import { ItemService } from '../../../services/item.service';
 import { EventBusService } from '../../../services/event-bus.service';
 import { HttpParams } from '@angular/common/http';
+import { CustomerDeleteModalComponent } from '../../customer/customer-delete-modal/customer-delete-modal.component';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, AfterViewInit {
+  @ViewChild('deleteItemModal') deleteItemModal!: CustomerDeleteModalComponent;
+
   items: ItemPreviewResponse[] = [];
   total = 0;
   page = 1;
@@ -26,6 +29,18 @@ export class ItemComponent implements OnInit {
     private itemService: ItemService,
     private eventBusService: EventBusService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.eventBusService.itemActions$.subscribe(event => {
+      if (event.action === 'view') {
+        // this.customerModal.openModal('view', event.payload);
+      } else if (event.action === 'edit') {
+        // this.customerModal.openModal('edit', event.payload);
+      } else if (event.action === 'delete') {
+        this.deleteItemModal.openModal(event.payload);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.fetchItems();
@@ -62,6 +77,11 @@ export class ItemComponent implements OnInit {
   onFilterStock(filterStock: string): void {
     this.filterStock = filterStock;
     this.page = 1;
+    this.fetchItems();
+  }
+
+  // On (update/delete) fetch new customer
+  onFormSubmit() {
     this.fetchItems();
   }
 
