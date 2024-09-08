@@ -25,11 +25,11 @@ export class ItemService {
     return this.httpClient.delete<BaseResponse<String>>(`${this.apiUrl}/${itemId}`)
   }
 
-  addItem(item: FormData): Observable<BaseResponse<String>> {
+  addItem(item: any): Observable<BaseResponse<String>> {
     return this.httpClient.post<BaseResponse<String>>(this.apiUrl, item);
   }
 
-  editItem(itemId: number, item: FormData): Observable<BaseResponse<String>> {
+  editItem(itemId: number, item: any): Observable<BaseResponse<String>> {
     return this.httpClient.put<BaseResponse<String>>(`${this.apiUrl}/${itemId}`, item);
   }
 }

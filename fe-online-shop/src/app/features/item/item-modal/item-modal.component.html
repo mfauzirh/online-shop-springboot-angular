@@ -1,0 +1,176 @@
+<!-- Item Modal for View, Update, and Add -->
+<div 
+  class="modal fade" 
+  [ngClass]="{ 'show': isOpen }" 
+  [ngStyle]="{ 'display': isOpen ? 'block' : 'none' }" 
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="modalLabel"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalMode == 'add'" class="modal-title" id="modalLabel">Add Item</h5>
+        <h5 *ngIf="modalMode == 'view'" class="modal-title" id="modalLabel">Item Detail</h5>
+        <h5 *ngIf="modalMode == 'edit'" class="modal-title" id="modalLabel">Edit Item</h5>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Wrap form controls with a form element and bind it to the formGroup -->
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit($event)">
+          <!-- Item name -->
+          <div class="mb-3">
+            <label for="itemName" class="form-label">Item Name</label>
+            <input 
+              type="text" 
+              id="itemName" 
+              class="form-control" 
+              [attr.readonly]="modalMode === 'view' ? true : null"
+              formControlName="itemName">
+            <div 
+              *ngIf="modalMode !== 'view' && 
+                    itemForm.controls['itemName'].invalid && 
+                    (itemForm.controls['itemName'].dirty 
+                    || itemForm.controls['itemName'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="itemForm.controls['itemName'].errors?.['required']">
+                Item Name is required.
+              </div>
+              <div *ngIf="itemForm.controls['itemName'].errors?.['minlength']">
+                Item Name must be at least 1 character long.
+              </div>
+              <div *ngIf="itemForm.controls['itemName'].errors?.['maxlength']">
+                Item Name cannot be more than 255 characters long.
+              </div>
+            </div>
+          </div>
+          
+          <!-- Item Stock -->
+          <div class="mb-3">
+            <label for="stock" class="form-label">Item Stock</label>
+            <input 
+              type="number"
+              min="0" 
+              id="stock" 
+              class="form-control" 
+              formControlName="stock" 
+              [attr.readonly]="modalMode === 'view' ? true : null">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    itemForm.controls['stock'].invalid && 
+                    (itemForm.controls['stock'].dirty || 
+                    itemForm.controls['stock'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="itemForm.controls['stock'].errors?.['required']">
+                Item Stock is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item Price -->
+          <div class="mb-3">
+            <label for="price" class="form-label">Item Price</label>
+            <input 
+              type="number"
+              min="0" 
+              id="price" 
+              class="form-control" 
+              formControlName="price" 
+              [attr.readonly]="modalMode === 'view' ? true : null">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    itemForm.controls['price'].invalid && 
+                    (itemForm.controls['price'].dirty || 
+                    itemForm.controls['price'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="itemForm.controls['price'].errors?.['required']">
+                Item Price is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item Availability -->
+          <div class="mb-3">
+            <label class="form-label">Is Available</label>
+            <div class="form-check">
+              <input 
+                type="radio" 
+                id="isAvailableYes" 
+                class="form-check-input" 
+                formControlName="isAvailable" 
+                [value]="true" 
+                [attr.disabled]="modalMode === 'view' ? true : null">
+              <label for="isAvailableYes" class="form-check-label">Yes</label>
+            </div>
+            <div class="form-check">
+              <input 
+                type="radio" 
+                id="isAvailableNo" 
+                class="form-check-input" 
+                formControlName="isAvailable" 
+                [value]="false" 
+                [attr.disabled]="modalMode === 'view' ? true : null">
+              <label for="isAvailableNo" class="form-check-label">No</label>
+            </div>
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    itemForm.controls['isAvailable'].invalid && 
+                    (itemForm.controls['isAvailable'].dirty || 
+                    itemForm.controls['isAvailable'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="itemForm.controls['isAvailable'].errors?.['required']">
+                Item availability selection is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item Code (View Only) -->
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="itemCode" class="form-label">Item Code</label>
+            <input 
+              type="text" 
+              id="itemCode" 
+              class="form-control" 
+              [value]="itemCode"
+              readonly>
+          </div>
+
+          <!-- Ite  Last Re Stock (View Only) -->
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="lastReStock" class="form-label">Last Re Stock</label>
+            <input 
+              type="text" 
+              id="lastReStock" 
+              class="form-control" 
+              [value]="lastReStock"
+              readonly>
+          </div>
+                   
+          <!-- Submit button -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">
+              Close
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              *ngIf="modalMode == 'add'"
+              [disabled]="itemForm.invalid"
+            >Save</button>
+            <button 
+              type="submit" 
+              class="btn btn-warning" 
+              *ngIf="modalMode == 'edit'"
+              [disabled]="itemForm.invalid"
+            >Edit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [ngClass]="{ 'show': isOpen }" *ngIf="isOpen"></div>

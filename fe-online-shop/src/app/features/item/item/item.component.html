@@ -1,11 +1,11 @@
 <div class="row customer-list-container table-responsive">
   <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
     <h3>Item Management</h3>
-    <!-- <button 
+    <button 
       class="btn btn-primary" 
       style="height: 40px;" 
-      (click)="onAddCustomer()"
-    >Add Customer</button> -->
+      (click)="onAddItem()"
+    >Add Item</button>
   </div>
 
   <!-- Customer Filter Component -->
@@ -31,10 +31,10 @@
   ></app-pagination>
 
   <!-- Customer Edit/View/Add Modal -->
-  <!-- <app-customer-modal
-    #customerModal
-    (formSubmit)="fetchCustomers()"
-  ></app-customer-modal> -->
+  <app-item-modal
+    #itemModal
+    (formSubmit)="fetchItems()"
+  ></app-item-modal>
 
   <!-- Item delete modal -->
   <app-item-delete-modal 

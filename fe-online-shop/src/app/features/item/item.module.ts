@@ -4,9 +4,10 @@ import { ItemComponent } from './item/item.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemListItemComponent } from './item-list-item/item-list-item.component';
 import { ItemFilterComponent } from './item-filter/item-filter.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { ItemDeleteModalComponent } from './item-delete-modal/item-delete-modal.component';
+import { ItemModalComponent } from './item-modal/item-modal.component';
 
 
 
@@ -16,12 +17,15 @@ import { ItemDeleteModalComponent } from './item-delete-modal/item-delete-modal.
     ItemListComponent,
     ItemFilterComponent,
     ItemListItemComponent,
-    ItemDeleteModalComponent
+    ItemDeleteModalComponent,
+    ItemModalComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    PaginationComponent
+    PaginationComponent,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ItemComponent

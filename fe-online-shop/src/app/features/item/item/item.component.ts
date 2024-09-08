@@ -4,6 +4,7 @@ import { ItemService } from '../../../services/item.service';
 import { EventBusService } from '../../../services/event-bus.service';
 import { HttpParams } from '@angular/common/http';
 import { CustomerDeleteModalComponent } from '../../customer/customer-delete-modal/customer-delete-modal.component';
+import { ItemModalComponent } from '../item-modal/item-modal.component';
 
 @Component({
   selector: 'app-item',
@@ -11,6 +12,7 @@ import { CustomerDeleteModalComponent } from '../../customer/customer-delete-mod
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit, AfterViewInit {
+  @ViewChild('itemModal') itemModal!: ItemModalComponent;
   @ViewChild('deleteItemModal') deleteItemModal!: CustomerDeleteModalComponent;
 
   items: ItemPreviewResponse[] = [];
@@ -33,9 +35,9 @@ export class ItemComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.eventBusService.itemActions$.subscribe(event => {
       if (event.action === 'view') {
-        // this.customerModal.openModal('view', event.payload);
+        this.itemModal.openModal('view', event.payload);
       } else if (event.action === 'edit') {
-        // this.customerModal.openModal('edit', event.payload);
+        this.itemModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
         this.deleteItemModal.openModal(event.payload);
       }
@@ -44,6 +46,11 @@ export class ItemComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.fetchItems();
+  }
+
+  // On add customer button press, show customer modal with add mode
+  onAddItem() : void {
+    this.itemModal.openModal("add", null);
   }
 
   // Set the new page request to re-fetch the customer
