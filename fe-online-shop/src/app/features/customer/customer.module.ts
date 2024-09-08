@@ -18,15 +18,15 @@ import { CustomerModalComponent } from './customer-modal/customer-modal.componen
     CustomerListComponent, 
     CustomerListItemComponent,
     CustomerModalComponent,
-    CustomerDeleteModalComponent,
-    PaginationComponent
+    CustomerDeleteModalComponent
   ],
   imports: [
     ModalComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    PaginationComponent
   ],
   exports: [
     CustomerComponent

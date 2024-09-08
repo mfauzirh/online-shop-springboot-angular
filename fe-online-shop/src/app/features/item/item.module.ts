@@ -5,6 +5,7 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { ItemListItemComponent } from './item-list-item/item-list-item.component';
 import { ItemFilterComponent } from './item-filter/item-filter.component';
 import { FormsModule } from '@angular/forms';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
 
 
 
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    PaginationComponent
   ],
   exports: [
     ItemComponent

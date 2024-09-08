@@ -31,6 +31,12 @@ export class ItemComponent implements OnInit {
     this.fetchItems();
   }
 
+  // Set the new page request to re-fetch the customer
+  onPageChange(page: number): void {
+    this.page = page;
+    this.fetchItems();
+  }
+
   // Set the new search criteria and using it to re-fetch the customer
   onSearch(searchParams: any): void {
     this.searchParams = searchParams;
