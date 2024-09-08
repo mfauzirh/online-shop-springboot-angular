@@ -4,6 +4,7 @@ import { OrderService } from '../../../services/order.service';
 import { EventBusService } from '../../../services/event-bus.service';
 import { HttpParams } from '@angular/common/http';
 import { OrderDeleteModalComponent } from '../order-delete-modal/order-delete-modal.component';
+import { OrderModalComponent } from '../order-modal/order-modal.component';
 
 @Component({
   selector: 'app-order',
@@ -12,6 +13,7 @@ import { OrderDeleteModalComponent } from '../order-delete-modal/order-delete-mo
 })
 export class OrderComponent implements OnInit, AfterViewInit {
   @ViewChild('deleteOrderModal') deleteOrderModal!: OrderDeleteModalComponent;
+  @ViewChild('orderModal') orderModal!: OrderModalComponent;
 
   orders: OrderPreviewResponse[] = [];
 
@@ -36,13 +38,18 @@ export class OrderComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.eventBusService.orderActions$.subscribe(event => {
       if (event.action === 'view') {
-        // this.itemModal.openModal('view', event.payload);
+        this.orderModal.openModal('view', event.payload);
       } else if (event.action === 'edit') {
-        // this.itemModal.openModal('edit', event.payload);
+        this.orderModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
         this.deleteOrderModal.openModal(event.payload);
       }
     });
+  }
+
+  // On add customer button press, show customer modal with add mode
+  onAddOrder() : void {
+    this.orderModal.openModal("add", null);
   }
 
   // Set the new page request to re-fetch the customer

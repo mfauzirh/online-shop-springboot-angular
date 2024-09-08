@@ -1,0 +1,249 @@
+<!-- Item Modal for View, Update, and Add -->
+<div 
+  class="modal fade" 
+  [ngClass]="{ 'show': isOpen }" 
+  [ngStyle]="{ 'display': isOpen ? 'block' : 'none' }" 
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="modalLabel"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalMode == 'add'" class="modal-title" id="modalLabel">Add Order</h5>
+        <h5 *ngIf="modalMode == 'view'" class="modal-title" id="modalLabel">Item Order</h5>
+        <h5 *ngIf="modalMode == 'edit'" class="modal-title" id="modalLabel">Edit ORder</h5>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Wrap form controls with a form element and bind it to the formGroup -->
+        <form [formGroup]="orderForm" (ngSubmit)="onSubmit($event)">
+          <!-- Order Related Data -->
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <h5 class="text-center">Order Detail</h5>
+            <hr>
+            <label for="orderCode" class="form-label">Order Code</label>
+            <input 
+              type="text" 
+              id="orderCode" 
+              class="form-control" 
+              [value]="order?.orderCode"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="orderDate" class="form-label">Order Code</label>
+            <input 
+              type="text" 
+              id="orderDate" 
+              class="form-control" 
+              [value]="order?.orderDate"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="totalPrice" class="form-label">Total Price</label>
+            <input 
+              type="text" 
+              id="totalPrice" 
+              class="form-control" 
+              [value]="order?.totalPrice"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="quantityRO" class="form-label">Order Quantity</label>
+            <input 
+              type="text" 
+              id="quantityRO" 
+              class="form-control" 
+              [value]="order?.quantity"
+              readonly>
+          </div>
+
+          <div class="mb-3 justify-content-center d-flex flex-column" *ngIf="modalMode == 'view'">
+            <h5 class="text-center mt-2">Customer Detail</h5>
+            <hr/>
+            <div class="d-flex justify-content-center">
+              <img 
+              [src]="order?.customerPic" 
+              alt="Image Preview" 
+              class="img-fluid" 
+              style="max-height: 150px; 
+              max-width: 150px; 
+              border-radius: 100%;">
+            </div>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="customerNameRO" class="form-label">Customer Name</label>
+            <input 
+              type="text" 
+              id="customerNameRO" 
+              class="form-control" 
+              [value]="order?.customerName"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="customerAddress" class="form-label">Customer Address</label>
+            <input 
+              type="text" 
+              id="customerAddress" 
+              class="form-control" 
+              [value]="order?.customerAddress"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="customerPhone" class="form-label">Customer Phone</label>
+            <input 
+              type="text" 
+              id="customerPhone" 
+              class="form-control" 
+              [value]="order?.customerPhone"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <h5 class="text-center mt-2">Item Detail</h5>
+            <hr/>
+            <label for="itemName" class="form-label">Item Name</label>
+            <input 
+              type="text" 
+              id="itemName" 
+              class="form-control" 
+              [value]="order?.itemName"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="stock" class="form-label">Item Remaining Stock</label>
+            <input 
+              type="text" 
+              id="stock" 
+              class="form-control" 
+              [value]="order?.stock"
+              readonly>
+          </div>
+
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="price" class="form-label">Item Price</label>
+            <input 
+              type="text" 
+              id="price" 
+              class="form-control" 
+              [value]="order?.price"
+              readonly>
+          </div>
+
+          <!-- Customer -->
+          <div class="mb-3" *ngIf="modalMode === 'add'">
+            <label for="customerSelector">Customer</label>
+            <select 
+              id="customerSelector"
+              class="form-control ms-2" 
+              formControlName="customerId"
+            >
+              <option 
+                *ngFor="let customer of customerList" 
+                [value]="customer.customerId" 
+                [attr.selected]="customer.customerId == order?.customerId"
+              >{{customer.customerName}}</option>
+            </select>
+            <div 
+              *ngIf="orderForm.controls['customerId'].invalid && 
+                    (orderForm.controls['customerId'].dirty || 
+                    orderForm.controls['customerId'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="orderForm.controls['customerId'].errors?.['required']">
+                Please select a search criteria.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item -->
+          <div class="mb-3" *ngIf="modalMode === 'add'">
+            <label for="itemSelector">Item</label>
+            <select 
+              id="itemSelector"
+              class="form-control ms-2" 
+              formControlName="itemId"
+            >
+              <option 
+                *ngFor="let item of itemList" 
+                [value]="item.itemId"
+                [attr.selected]="item.itemId == order?.itemId"
+              >{{item.itemName}}</option>
+            </select>
+            <div 
+              *ngIf="orderForm.controls['itemId'].invalid && 
+                    (orderForm.controls['itemId'].dirty || 
+                    orderForm.controls['itemId'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="orderForm.controls['itemId'].errors?.['required']">
+                Please select a search criteria.
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Quantity -->
+          <div class="mb-3" *ngIf="modalMode !== 'view'">
+            <label for="quantity" class="form-label">Order Quantity</label>
+            <input 
+              type="number"
+              min="0" 
+              id="quantity" 
+              class="form-control" 
+              formControlName="quantity" 
+              [attr.readonly]="modalMode === 'view' ? true : null">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    orderForm.controls['quantity'].invalid && 
+                    (orderForm.controls['quantity'].dirty || 
+                    orderForm.controls['quantity'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="orderForm.controls['quantity'].errors?.['required']">
+                Item quantity is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- Ite  Last Re Stock (View Only) -->
+          <!-- <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="lastReStock" class="form-label">Last Re Stock</label>
+            <input 
+              type="text" 
+              id="lastReStock" 
+              class="form-control" 
+              [value]="lastReStock"
+              readonly>
+          </div> -->
+                   
+          <!-- Submit button -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">
+              Close
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              *ngIf="modalMode == 'add'"
+              [disabled]="orderForm.invalid"
+            >Save</button>
+            <button 
+              type="submit" 
+              class="btn btn-warning" 
+              *ngIf="modalMode == 'edit'"
+              [disabled]="orderForm.invalid"
+            >Edit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [ngClass]="{ 'show': isOpen }" *ngIf="isOpen"></div>

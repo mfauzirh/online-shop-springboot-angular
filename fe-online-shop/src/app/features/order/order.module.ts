@@ -7,6 +7,7 @@ import { OrderFilterComponent } from './order-filter/order-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { OrderDeleteModalComponent } from './order-delete-modal/order-delete-modal.component';
+import { OrderModalComponent } from './order-modal/order-modal.component';
 
 
 
@@ -16,7 +17,8 @@ import { OrderDeleteModalComponent } from './order-delete-modal/order-delete-mod
     OrderFilterComponent,
     OrderListComponent,
     OrderListItemComponent,
-    OrderDeleteModalComponent
+    OrderDeleteModalComponent,
+    OrderModalComponent
   ],
   imports: [
     CommonModule,

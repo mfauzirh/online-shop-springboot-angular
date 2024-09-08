@@ -9,6 +9,7 @@ import com.mfauzirh.beonlineshop.exception.InvalidQuantityUpdate;
 import com.mfauzirh.beonlineshop.repository.CustomerRepository;
 import com.mfauzirh.beonlineshop.repository.ItemRepository;
 import com.mfauzirh.beonlineshop.repository.OrderRepository;
+import com.mfauzirh.beonlineshop.util.MinioUtil;
 import com.mfauzirh.beonlineshop.util.PageableUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
@@ -31,17 +32,20 @@ public class OrderServiceImpl implements OrderService{
     private final CustomerRepository customerRepository;
     private final ItemRepository itemRepository;
     private final PageableUtil pageableUtil;
+    private final MinioUtil minioUtil;
 
     public OrderServiceImpl(
             OrderRepository orderRepository,
             CustomerRepository customerRepository,
             ItemRepository itemRepository,
-            PageableUtil pageableUtil
+            PageableUtil pageableUtil,
+            MinioUtil minioUtil
     ) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
         this.itemRepository = itemRepository;
         this.pageableUtil = pageableUtil;
+        this.minioUtil = minioUtil;
     }
 
     @Override
@@ -178,7 +182,7 @@ public class OrderServiceImpl implements OrderService{
                 .customerName(order.getCustomer().getCustomerName())
                 .customerAddress(order.getCustomer().getCustomerAddress())
                 .customerPhone(order.getCustomer().getCustomerPhone())
-                .customerPic(order.getCustomer().getPic())
+                .customerPic(minioUtil.getImageUrl(order.getCustomer().getPic()))
                 .itemId(order.getItem().getItemId())
                 .itemName(order.getItem().getItemName())
                 .stock(order.getItem().getStock())
