@@ -17,8 +17,9 @@ export class ItemComponent implements OnInit {
   sortBy = 'itemName,asc';
   searchParams = {
     searchValue: '',
-    searchBy: ''
+    searchBy: '',
   };
+  filterPrice = '';
 
   constructor(
     private itemService: ItemService,
@@ -29,6 +30,28 @@ export class ItemComponent implements OnInit {
     this.fetchItems();
   }
 
+  // Set the new search criteria and using it to re-fetch the customer
+  onSearch(searchParams: any): void {
+    this.searchParams = searchParams;
+    this.page = 1;
+    this.fetchItems();
+  }
+
+  // Set the new sort criteria and using it to re-fetch the customer
+  onSort(sortBy: string): void {
+    this.sortBy = sortBy;
+    this.page = 1;
+    this.fetchItems();
+  }
+
+  // Set new filter price criteria and using it to re-fetch the customer
+  onFilterPrice(filterPrice: string): void {
+    console.log("triggered")
+    this.filterPrice = filterPrice;
+    this.page = 1;
+    this.fetchItems();
+  }
+
   // Make request to fetch items
   fetchItems() : void {
     let params = new HttpParams()
@@ -36,6 +59,10 @@ export class ItemComponent implements OnInit {
       .set('pageSize', this.pageSize.toString())
       .set('sortBy', this.sortBy)
       .set(this.searchParams.searchBy, this.searchParams.searchValue);
+
+    if (this.filterPrice.length > 0) {
+      params = params.set('price', this.filterPrice);
+    }
     
     this.itemService.getAllItems(params).subscribe({
       next: response => {

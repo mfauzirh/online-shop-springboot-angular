@@ -18,7 +18,6 @@ public class ItemFilterRequest {
     private Long itemId;
 
     @Nullable
-    @Size(min = 1, max = 255, message = "Item name must be between 1 and 255 characters")
     private String itemName;
 
     @Nullable

@@ -9,10 +9,11 @@
   </div>
 
   <!-- Customer Filter Component -->
-  <!-- <app-customer-filter
+  <app-item-filter
     (search)="onSearch($event)"
     (sort)="onSort($event)"
-  ></app-customer-filter> -->
+    (filterPrice)="onFilterPrice($event)"
+  ></app-item-filter>
 
   <!-- Customer List Component -->
   <app-item-list 
