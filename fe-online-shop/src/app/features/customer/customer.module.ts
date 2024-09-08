@@ -8,9 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { RouterLink } from '@angular/router';
-import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomerListItemComponent } from './customer-list-item/customer-list-item.component';
+import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,8 @@ import { CustomerListItemComponent } from './customer-list-item/customer-list-it
     PaginationComponent,
     CustomerFilterComponent,
     CustomerAddFormComponent,
-    CustomerUpdateFormComponent,
     CustomerDetailComponent,
+    CustomerDeleteModalComponent
   ],
   imports: [
     ModalComponent,

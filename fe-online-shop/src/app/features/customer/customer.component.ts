@@ -4,6 +4,7 @@ import { CustomerPreviewResponse } from '../../models/customer-preview-response.
 import { CustomerService } from '../../services/customer.service';
 import { EventBusService } from '../../services/event-bus.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
+import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-delete-modal.component';
 
 @Component({
   selector: 'app-customer',
@@ -12,7 +13,9 @@ import { ModalComponent } from '../../shared/modal/modal.component';
 })
 export class CustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('addCustomerModal') addCustomerModal!: ElementRef;
-  @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
+  // @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
+
+  @ViewChild('deleteCustomerModal') deleteCustomerModal!: CustomerDeleteModalComponent;
 
   customers: CustomerPreviewResponse[] = [];
   total = 0;
@@ -25,6 +28,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   };
 
   updatedCustomerId : number | undefined;
+  deletedCustomerId : number | undefined;
 
   constructor(
     private http: HttpClient, 
@@ -38,6 +42,21 @@ export class CustomerComponent implements OnInit, AfterViewInit {
         // this.onModalAction(name, payload);
         this.onCustomerDeleted();
       } 
+    });
+
+    this.eventBusService.customerActions$.subscribe(event => {
+      if (event.action === 'view') {
+        // this.viewCustomer(event.payload);
+        console.log("receive event customer view", event.payload)
+      } else if (event.action === 'edit') {
+        // this.editCustomer(event.payload);
+        console.log("receive event customer edit", event.payload)
+      } else if (event.action === 'delete') {
+        console.log(this.deleteCustomerModal)
+        this.deletedCustomerId = event.payload;
+        this.deleteCustomerModal.onOpen();
+        console.log("receive event customer delete", event.payload)
+      }
     });
   }
 
@@ -96,8 +115,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   onCustomerDeleted() {
-    console.log("Run customer logic for delete")
-    this.eventBusService.closeModal("Delete Customer");
+    this.deletedCustomerId = undefined;
     this.fetchCustomers();
   }
 }

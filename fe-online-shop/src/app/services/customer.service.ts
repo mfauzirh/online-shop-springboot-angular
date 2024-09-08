@@ -15,4 +15,8 @@ export class CustomerService {
   getAllCustomers(params: HttpParams): Observable<BaseResponse<CustomerPreviewResponse[]>> {
     return this.httpClient.get<BaseResponse<CustomerPreviewResponse[]>>(this.apiUrl, { params });
   }
+
+  deleteCustomer(customerId: number): Observable<BaseResponse<String>> {
+    return this.httpClient.delete<BaseResponse<String>>(`${this.apiUrl}/${customerId}`)
+  }
 }
