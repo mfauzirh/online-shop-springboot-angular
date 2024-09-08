@@ -5,7 +5,6 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { CustomerFilterComponent } from './customer-filter/customer-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.component';
 import { RouterLink } from '@angular/router';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomerListItemComponent } from './customer-list-item/customer-list-item.component';
@@ -13,15 +12,14 @@ import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-d
 import { CustomerModalComponent } from './customer-modal/customer-modal.component';
 
 @NgModule({
-  declarations: [
-    CustomerComponent, 
+  declarations: [ 
+    CustomerComponent,
+    CustomerFilterComponent,
     CustomerListComponent, 
     CustomerListItemComponent,
-    PaginationComponent,
-    CustomerFilterComponent,
-    CustomerAddFormComponent,
     CustomerModalComponent,
-    CustomerDeleteModalComponent
+    CustomerDeleteModalComponent,
+    PaginationComponent
   ],
   imports: [
     ModalComponent,

@@ -8,16 +8,21 @@ import { CustomerService } from '../../../services/customer.service';
 })
 export class CustomerDeleteModalComponent {
   isOpen: boolean = false;
-  @Input() customerId : number | undefined;
+  customerId : number | undefined;
+  
   @Output() customerDeleted = new EventEmitter<number>();
 
   constructor(private customerService: CustomerService) {}
 
-  onOpen() {
-    this.isOpen = true;
+  openModal(customerId: number) {
+    if(customerId) {
+      this.customerId = customerId;
+      this.isOpen = true;
+    }
   }
 
-  onClose() {
+  closeModal() {
+    this.customerId = undefined;
     this.isOpen = false;
   }
 
@@ -31,7 +36,7 @@ export class CustomerDeleteModalComponent {
       next: response => {
         console.log(response)
         console.log("Sucess deleted customer");
-        this.onClose();
+        this.closeModal();
         this.customerDeleted.emit();
       },
       error: error => {

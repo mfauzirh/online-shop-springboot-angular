@@ -1,9 +1,8 @@
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CustomerPreviewResponse } from '../../models/customer-preview-response.model';
 import { CustomerService } from '../../services/customer.service';
 import { EventBusService } from '../../services/event-bus.service';
-import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-delete-modal.component';
 import { CustomerModalComponent } from './customer-modal/customer-modal.component';
 
@@ -29,10 +28,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     searchBy: ''
   };
 
-  updatedCustomerId : number | undefined;
   deletedCustomerId : number | undefined;
-  selectedCustomerId : number | undefined;
-
+  
   constructor(
     private customerService: CustomerService,
     private eventBusService: EventBusService
@@ -42,14 +39,11 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.eventBusService.customerActions$.subscribe(event => {
       if (event.action === 'view') {
         this.customerModal.openModal('view', event.payload);
-        console.log("receive event customer view", event.payload)
       } else if (event.action === 'edit') {
         this.customerModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
-        console.log(this.deleteCustomerModal)
         this.deletedCustomerId = event.payload;
-        this.deleteCustomerModal.onOpen();
-        console.log("receive event customer delete", event.payload)
+        this.deleteCustomerModal.openModal(event.payload);
       }
     });
   }
@@ -82,6 +76,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.fetchCustomers();
   }
 
+  // On (update/delete) fetch new customer
   onFormSubmit() {
     this.fetchCustomers();
   }
@@ -92,7 +87,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
       .set('pageNumber', this.page.toString())
       .set('pageSize', this.pageSize.toString())
       .set('sortBy', this.sortBy)
-      .set(this.searchParams.searchBy, this.searchParams.searchValue); // Use the selected search criterion
+      .set(this.searchParams.searchBy, this.searchParams.searchValue);
     
     this.customerService.getAllCustomers(params).subscribe({
       next: response => {

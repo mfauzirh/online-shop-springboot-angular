@@ -28,9 +28,6 @@
     (pageChange)="onPageChange($event)"
   ></app-pagination>
 
-  <!-- Customer Create Modal -->
-  <app-customer-add-form (formSubmit)="onFormSubmit()"></app-customer-add-form>
-
   <app-customer-modal
     #customerModal
     (formSubmit)="fetchCustomers()"
@@ -38,7 +35,6 @@
 
   <app-customer-delete-modal 
     #deleteCustomerModal 
-    [customerId]="deletedCustomerId"
     (customerDeleted)="fetchCustomers()"
   ></app-customer-delete-modal>
   
