@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { OrderPreviewResponse } from '../../../models/order-preview-response';
 import { OrderService } from '../../../services/order.service';
 import { EventBusService } from '../../../services/event-bus.service';
 import { HttpParams } from '@angular/common/http';
+import { OrderDeleteModalComponent } from '../order-delete-modal/order-delete-modal.component';
 
 @Component({
   selector: 'app-order',
@@ -10,6 +11,8 @@ import { HttpParams } from '@angular/common/http';
   styleUrl: './order.component.css'
 })
 export class OrderComponent implements OnInit, AfterViewInit {
+  @ViewChild('deleteOrderModal') deleteOrderModal!: OrderDeleteModalComponent;
+
   orders: OrderPreviewResponse[] = [];
 
   total = 0;
@@ -31,13 +34,13 @@ export class OrderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.eventBusService.itemActions$.subscribe(event => {
+    this.eventBusService.orderActions$.subscribe(event => {
       if (event.action === 'view') {
         // this.itemModal.openModal('view', event.payload);
       } else if (event.action === 'edit') {
         // this.itemModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
-        // this.deleteItemModal.openModal(event.payload);
+        this.deleteOrderModal.openModal(event.payload);
       }
     });
   }
