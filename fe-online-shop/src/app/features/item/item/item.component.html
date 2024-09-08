@@ -1,1 +1,43 @@
-test
+<div class="row customer-list-container table-responsive">
+  <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
+    <h3>Item Management</h3>
+    <!-- <button 
+      class="btn btn-primary" 
+      style="height: 40px;" 
+      (click)="onAddCustomer()"
+    >Add Customer</button> -->
+  </div>
+
+  <!-- Customer Filter Component -->
+  <!-- <app-customer-filter
+    (search)="onSearch($event)"
+    (sort)="onSort($event)"
+  ></app-customer-filter> -->
+
+  <!-- Customer List Component -->
+  <app-item-list 
+    [items]="items"
+  ></app-item-list>
+
+  <!-- Pagination Component -->
+  <!-- <app-pagination 
+    class="mt-4" 
+    [page]="page"
+    [pageSize]="pageSize"
+    [totalItems]="total"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination> -->
+
+  <!-- Customer Edit/View/Add Modal -->
+  <!-- <app-customer-modal
+    #customerModal
+    (formSubmit)="fetchCustomers()"
+  ></app-customer-modal> -->
+
+  <!-- Customer delete modal -->
+  <!-- <app-customer-delete-modal 
+    #deleteCustomerModal 
+    (customerDeleted)="fetchCustomers()"
+  ></app-customer-delete-modal> -->
+  
+</div>

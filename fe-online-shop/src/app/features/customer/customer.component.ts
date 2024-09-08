@@ -30,6 +30,11 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     private eventBusService: EventBusService
   ) {}
 
+  // On component initialization fetch customer data
+  ngOnInit(): void {
+    this.fetchCustomers();
+  }
+
   ngAfterViewInit(): void {
     // Subscribe to event that publish from other component to open modal (edit/view/add)
     this.eventBusService.customerActions$.subscribe(event => {
@@ -41,11 +46,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
         this.deleteCustomerModal.openModal(event.payload);
       }
     });
-  }
-
-  // On component initialization fetch customer data
-  ngOnInit(): void {
-    this.fetchCustomers();
   }
 
   // On add customer button press, show customer modal with add mode
