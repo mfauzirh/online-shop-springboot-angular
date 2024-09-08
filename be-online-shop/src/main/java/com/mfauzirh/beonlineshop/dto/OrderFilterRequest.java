@@ -14,11 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OrderFilterRequest {
     @Nullable
-    @Size(min = 1, max = 255, message = "Customer name must be between 1 and 255 characters")
     private String customerName;
 
     @Nullable
-    @Size(min = 1, max = 255, message = "Item name must be between 1 and 255 characters")
     private String itemName;
 
     @Nullable

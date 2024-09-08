@@ -1,4 +1,4 @@
-<div class="row customer-list-container table-responsive">
+<div class="row customer-list-container">
   <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
     <h3>User Management</h3>
     <button 
@@ -16,6 +16,7 @@
 
   <!-- Customer List Component -->
   <app-customer-list 
+    class="table-responsive"
     [customers]="customers"
   ></app-customer-list>
 

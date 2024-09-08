@@ -1,0 +1,19 @@
+<table class="item-list table align-middle mb-0 bg-white" style="min-width: 600px;">
+  <thead class="bg-light">
+    <tr>
+      <th style="min-width: 400px;">Order Code</th>
+      <th style="min-width: 200px;">Order Date</th>
+      <th style="min-width: 200px;">Total Price</th>
+      <th style="min-width: 100px;">Quantity</th>
+      <th style="min-width: 300px;">Customer Name</th>
+      <th style="min-width: 300px;">Item Name</th>
+      <th style="min-width: 180px;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr app-order-list-item
+      *ngFor="let order of orders"
+      [order]="order"
+    ></tr>
+  </tbody>
+</table>

@@ -1,0 +1,55 @@
+<div class="filter-container mt-2 mb-4">
+
+  <!-- Sort input container -->
+  <div class="sort form-group row d-flex align-items-center">
+    <label 
+      class="col" 
+      for="sortBy"
+    >Sort Criteria</label>
+    <select 
+      style="width: 180px;"
+      class="col form-control"
+      id="sortBy"
+      [(ngModel)]="selectedSort" 
+      (change)="onSort()"
+    >
+      <option *ngFor="let option of sortOptions" [value]="option">
+        {{ option }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Search input container -->
+  <div class="search form-group row">
+
+    <!-- Search By Criteria -->
+    <div class="col d-flex align-items-center">
+      <label for="searchByInput">Search By</label>
+      <select 
+        id="searchByInput"
+        class="col form-control ms-2" 
+        [(ngModel)]="searchBy"
+      >
+        <option value="customerName">Customer Name</option>
+        <option value="itemName">Item Name</option>
+      </select>
+    </div>
+
+    <!-- Search input field -->
+    <div class="col">
+      <input 
+        class="col form-control"
+        type="text" 
+        [(ngModel)]="searchValue" 
+        placeholder="Search">
+    </div>
+
+    <!-- Search button -->
+    <div class="col d-flex justify-content-end">
+      <button 
+        class="btn btn-primary col" 
+        (click)="onSearch()"
+      >Search</button>
+    </div>
+  </div>
+</div>

@@ -16,11 +16,15 @@ export class EventBusService {
   // Item related subjects
   private itemActions = new Subject<{ action: 'add' | 'edit' | 'delete' | 'view', payload?: any }>();
 
+  // Item related subjects
+  private orderActions = new Subject<{ action: 'add' | 'edit' | 'delete' | 'view', payload?: any }>();
+
   // Observables for external use
   modalActions$ = this.modalActions.asObservable();
   modalEvents$ = this.modalEvents.asObservable();
   customerActions$ = this.customerActions.asObservable();
   itemActions$ = this.itemActions.asObservable();
+  orderActions$ = this.orderActions.asObservable();
 
   // Modal methods
   openModal(name: string) {
@@ -67,5 +71,22 @@ export class EventBusService {
 
   viewItem(payload: any) {
     this.itemActions.next({ action: 'view', payload });
+  }
+
+  // Order methods
+  addOrder(payload: any) {
+    this.orderActions.next({ action: 'add', payload });
+  }
+
+  editOrder(payload: any) {
+    this.orderActions.next({ action: 'edit', payload });
+  }
+
+  deleteOrder(payload: any) {
+    this.orderActions.next({ action: 'delete', payload });
+  }
+
+  viewOrder(payload: any) {
+    this.orderActions.next({ action: 'view', payload });
   }
 }
