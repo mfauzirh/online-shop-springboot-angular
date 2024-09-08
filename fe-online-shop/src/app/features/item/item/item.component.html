@@ -1,5 +1,9 @@
 <button class="btn btn-danger" (click)="openDeleteModal(123)">Delete Item</button> <!-- Example ID 123 -->
 <button class="btn btn-danger" (click)="openEditModal(22)">Delete Item</button> <!-- Example ID 123 -->
 
-<app-modal name="Modal 1" #modal1 actionButtonText="Delete" [payload]="modal1.payload"></app-modal>
-<app-modal name="Modal 2" #modal2 actionButtonText="Edit"></app-modal>
+<app-modal name="Modal 1" #modal1 actionButtonText="Delete" [payload]="modal1.payload">
+  <p>Are you sure want to delete this?</p>
+</app-modal>
+<app-modal name="Modal 2" #modal2 actionButtonText="Edit">
+  Are you sure want to edit this
+</app-modal>

@@ -1,5 +1,7 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ModalComponent } from '../../../shared/modal/modal.component';
+import { EventBusService } from '../../../services/event-bus.service';
 
 interface CustomerPreviewResponse {
   customerId: number;
@@ -22,29 +24,36 @@ export class CustomerListComponent {
   @Output() customerDeleted =  new EventEmitter<number>();
   @Output() customerUpdated = new EventEmitter<number>();
 
+  @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
+
   deletedCustomer : number | undefined;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private eventBusService: EventBusService) {}
 
-  onPageChange(page: number): void {
-    this.pageChange.emit(page);
-  }
+  // onPageChange(page: number): void {
+  //   this.pageChange.emit(page);
+  // }
   onCustomerUpdated(customerId: number) : void {
     this.customerUpdated.emit(customerId);
   }
 
-  onCustomerDelete() : void {
-    if (this.deletedCustomer !== null) {
-      this.http.delete(`http://localhost:8080/customers/${this.deletedCustomer}`)
-        .subscribe(() => {
-          this.customerDeleted.emit(this.deletedCustomer);
-          this.deletedCustomer = undefined;
-          this.closeModal();
-        }, (error) => {
-          console.error('Delete failed', error);
-        });
-    }
+  openDeleteModal(id: number): void {
+    this.deleteCustomerModal.payload = { id }; // Set the payload
+    this.eventBusService.openModal('Delete Customer');
   }
+
+  // onCustomerDelete() : void {
+  //   if (this.deletedCustomer !== null) {
+  //     this.http.delete(`http://localhost:8080/customers/${this.deletedCustomer}`)
+  //       .subscribe(() => {
+  //         this.customerDeleted.emit(this.deletedCustomer);
+  //         this.deletedCustomer = undefined;
+  //         this.closeModal();
+  //       }, (error) => {
+  //         console.error('Delete failed', error);
+  //       });
+  //   }
+  // }
 
   chooseDeletedCustomer(custmerId : number) {
     console.log("choosed")

@@ -30,5 +30,9 @@
 
   <!-- Customer Create Modal -->
   <app-customer-add-form (formSubmit)="onFormSubmit()"></app-customer-add-form>
+
+  <app-modal name="Delete Customer" #deleteCustomerModal actionButtonText="Delete" [payload]="deleteCustomerModal.payload">
+    <p>Are you sure want to delete the customer?</p>
+  </app-modal>
   
 </div>

@@ -23,7 +23,7 @@ export class ItemComponent implements AfterViewInit {
     });
 
     this.eventBusService.modalEvents$.subscribe(({ name, event, payload }) => {
-      if (event === 'action') {
+      if (event === 'action' && name == "Modal 1") {
         this.onModalAction(name, payload);
       } else if (event === 'close') {
         this.onModalClose(name);

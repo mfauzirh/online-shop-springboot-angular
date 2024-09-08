@@ -1,15 +1,18 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CustomerPreviewResponse } from '../../models/customer-preview-response.model';
 import { CustomerService } from '../../services/customer.service';
+import { EventBusService } from '../../services/event-bus.service';
+import { ModalComponent } from '../../shared/modal/modal.component';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('addCustomerModal') addCustomerModal!: ElementRef;
+  @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
 
   customers: CustomerPreviewResponse[] = [];
   total = 0;
@@ -23,7 +26,20 @@ export class CustomerComponent implements OnInit {
 
   updatedCustomerId : number | undefined;
 
-  constructor(private http: HttpClient, private customerService: CustomerService) {}
+  constructor(
+    private http: HttpClient, 
+    private customerService: CustomerService,
+    private eventBusService: EventBusService
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.eventBusService.modalEvents$.subscribe(({ name, event, payload }) => {
+      if (event === 'action' && name == "Delete Customer") {
+        // this.onModalAction(name, payload);
+        this.onCustomerDeleted();
+      } 
+    });
+  }
 
   ngOnInit(): void {
     this.fetchCustomers();
@@ -80,7 +96,8 @@ export class CustomerComponent implements OnInit {
   }
 
   onCustomerDeleted() {
-    console.log("event retrieved")
+    console.log("Run customer logic for delete")
+    this.eventBusService.closeModal("Delete Customer");
     this.fetchCustomers();
   }
 }
