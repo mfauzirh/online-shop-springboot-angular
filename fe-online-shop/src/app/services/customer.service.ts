@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { BaseResponse } from '../models/base-response.model';
-import { CustomerPreviewResponse } from '../models/customer-preview-response.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CustomerPreviewResponse } from '../models/customer-preview-response.model';
+import { BaseResponse } from '../models/base-response.model';
 import { CustomerResponse } from '../models/customer-response';
 
 @Injectable({
