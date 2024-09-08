@@ -6,11 +6,11 @@ import { PaginationComponent } from '../../shared/pagination/pagination.componen
 import { CustomerFilterComponent } from './customer-filter/customer-filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerAddFormComponent } from './customer-add-form/customer-add-form.component';
-import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { RouterLink } from '@angular/router';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomerListItemComponent } from './customer-list-item/customer-list-item.component';
 import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-delete-modal.component';
+import { CustomerModalComponent } from './customer-modal/customer-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-d
     PaginationComponent,
     CustomerFilterComponent,
     CustomerAddFormComponent,
-    CustomerDetailComponent,
+    CustomerModalComponent,
     CustomerDeleteModalComponent
   ],
   imports: [

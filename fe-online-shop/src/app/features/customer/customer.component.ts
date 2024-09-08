@@ -5,6 +5,7 @@ import { CustomerService } from '../../services/customer.service';
 import { EventBusService } from '../../services/event-bus.service';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { CustomerDeleteModalComponent } from './customer-delete-modal/customer-delete-modal.component';
+import { CustomerModalComponent } from './customer-modal/customer-modal.component';
 
 @Component({
   selector: 'app-customer',
@@ -15,6 +16,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('addCustomerModal') addCustomerModal!: ElementRef;
   // @ViewChild('deleteCustomerModal') deleteCustomerModal!: ModalComponent;
 
+  @ViewChild('customerModal') customerModal!: CustomerModalComponent;
   @ViewChild('deleteCustomerModal') deleteCustomerModal!: CustomerDeleteModalComponent;
 
   customers: CustomerPreviewResponse[] = [];
@@ -29,28 +31,20 @@ export class CustomerComponent implements OnInit, AfterViewInit {
 
   updatedCustomerId : number | undefined;
   deletedCustomerId : number | undefined;
+  selectedCustomerId : number | undefined;
 
   constructor(
-    private http: HttpClient, 
     private customerService: CustomerService,
     private eventBusService: EventBusService
   ) {}
 
   ngAfterViewInit(): void {
-    this.eventBusService.modalEvents$.subscribe(({ name, event, payload }) => {
-      if (event === 'action' && name == "Delete Customer") {
-        // this.onModalAction(name, payload);
-        this.onCustomerDeleted();
-      } 
-    });
-
     this.eventBusService.customerActions$.subscribe(event => {
       if (event.action === 'view') {
-        // this.viewCustomer(event.payload);
+        this.customerModal.openModal('view', event.payload);
         console.log("receive event customer view", event.payload)
       } else if (event.action === 'edit') {
-        // this.editCustomer(event.payload);
-        console.log("receive event customer edit", event.payload)
+        this.customerModal.openModal('edit', event.payload);
       } else if (event.action === 'delete') {
         console.log(this.deleteCustomerModal)
         this.deletedCustomerId = event.payload;
@@ -64,24 +58,11 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.fetchCustomers();
   }
 
-  fetchCustomers(): void {
-    let params = new HttpParams()
-      .set('pageNumber', this.page.toString())
-      .set('pageSize', this.pageSize.toString())
-      .set('sortBy', this.sortBy)
-      .set(this.searchParams.searchBy, this.searchParams.searchValue); // Use the selected search criterion
-    
-    this.customerService.getAllCustomers(params).subscribe({
-      next: response => {
-        this.customers = response.data ?? [];
-        this.total = response.total ?? 0;
-      },
-      error: error => {
-        console.log("Error fetching customers", error)
-      }
-    })
+  onAddCustomer() : void {
+    this.customerModal.openModal("add", null);
   }
 
+  // Set the new page request to re-fetch the customer
   onPageChange(page: number): void {
     this.page = page;
     this.fetchCustomers();
@@ -104,18 +85,23 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   onFormSubmit() {
     this.fetchCustomers();
   }
-  
-  onCustomerUpdated(customerId : number) {
-    this.updatedCustomerId = customerId;
-    console.log("Customer with id " + customerId + "is request updated")
-    if (this.addCustomerModal) {
-      const modal = new (window as any).bootstrap.Modal(this.addCustomerModal.nativeElement);
-      modal.show();
-    }
-  }
 
-  onCustomerDeleted() {
-    this.deletedCustomerId = undefined;
-    this.fetchCustomers();
+  // Make request to fetch customers
+  fetchCustomers(): void {
+    let params = new HttpParams()
+      .set('pageNumber', this.page.toString())
+      .set('pageSize', this.pageSize.toString())
+      .set('sortBy', this.sortBy)
+      .set(this.searchParams.searchBy, this.searchParams.searchValue); // Use the selected search criterion
+    
+    this.customerService.getAllCustomers(params).subscribe({
+      next: response => {
+        this.customers = response.data ?? [];
+        this.total = response.total ?? 0;
+      },
+      error: error => {
+        console.log("Error fetching customers", error)
+      }
+    })
   }
 }

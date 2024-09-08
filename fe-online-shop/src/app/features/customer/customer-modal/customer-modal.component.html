@@ -1,0 +1,179 @@
+<!-- Customer Modal for View, Update, and Add -->
+<div 
+  class="modal fade" 
+  [ngClass]="{ 'show': isOpen }" 
+  [ngStyle]="{ 'display': isOpen ? 'block' : 'none' }" 
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="modalLabel"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="modalMode == 'add'" class="modal-title" id="modalLabel">Add Customer</h5>
+        <h5 *ngIf="modalMode == 'view'" class="modal-title" id="modalLabel">Customer Detail</h5>
+        <h5 *ngIf="modalMode == 'edit'" class="modal-title" id="modalLabel">Edit Customer</h5>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Wrap form controls with a form element and bind it to the formGroup -->
+        <form [formGroup]="customerForm" (ngSubmit)="onSubmit($event)">
+          <!-- Customer picture -->
+          <div class="mb-3">
+            <label for="pic" class="form-label">Profile Picture</label>
+            <input 
+              *ngIf="modalMode != 'view'"
+              type="file" 
+              id="pic" 
+              class="form-control" 
+              (change)="onFileChange($event)">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    customerForm.controls['pic'].invalid && 
+                    (customerForm.controls['pic'].dirty || 
+                    customerForm.controls['pic'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="customerForm.controls['pic'].errors?.['required']">
+                Customer picture is required.
+              </div>
+              <div *ngIf="customerForm.controls['pic'].errors?.['fileSize']">
+                File size exceeds 5 MB.
+              </div>
+              <div *ngIf="customerForm.controls['pic'].errors?.['invalidFileType']">
+                Invalid file format. Only JPG, JPEG, and PNG are allowed.
+              </div>
+            </div>
+            
+            <div *ngIf="previewUrl" class="mt-3 d-flex justify-content-center">
+              <img 
+                [src]="previewUrl" 
+                alt="Image Preview" 
+                class="img-fluid" 
+                style="max-height: 150px; 
+                max-width: 150px; 
+                border-radius: 100%;">
+            </div>
+          </div>
+          
+          <!-- Customer name -->
+          <div class="mb-3">
+            <label for="customerName" class="form-label">Customer Name</label>
+            <input 
+              type="text" 
+              id="customerName" 
+              class="form-control" 
+              [attr.readonly]="modalMode === 'view' ? true : null"
+              formControlName="customerName">
+            <div 
+              *ngIf="modalMode !== 'view' && 
+                    customerForm.controls['customerName'].invalid && 
+                    (customerForm.controls['customerName'].dirty 
+                    || customerForm.controls['customerName'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="customerForm.controls['customerName'].errors?.['required']">
+                Customer Name is required.
+              </div>
+              <div *ngIf="customerForm.controls['customerName'].errors?.['minlength']">
+                Customer Name must be at least 1 character long.
+              </div>
+              <div *ngIf="customerForm.controls['customerName'].errors?.['maxlength']">
+                Customer Name cannot be more than 255 characters long.
+              </div>
+            </div>
+          </div>
+          
+          <!-- Customer address -->
+          <div class="mb-3">
+            <label for="customerAddress" class="form-label">Customer Address</label>
+            <input 
+              type="text" 
+              id="customerAddress" 
+              class="form-control" 
+              formControlName="customerAddress" 
+              [attr.readonly]="modalMode === 'view' ? true : null">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                    customerForm.controls['customerAddress'].invalid && 
+                    (customerForm.controls['customerAddress'].dirty || 
+                    customerForm.controls['customerAddress'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="customerForm.controls['customerAddress'].errors?.['required']">
+                Customer Address is required.
+              </div>
+            </div>
+          </div>
+          
+          <!-- Customer phone number -->
+          <div class="mb-3">
+            <label for="customerPhone" class="form-label">Customer Phone</label>
+            <input 
+              type="text" 
+              id="customerPhone" 
+              class="form-control" 
+              formControlName="customerPhone"
+              [attr.readonly]="modalMode === 'view' ? true : null">
+            <div 
+              *ngIf="modalMode !== 'view' &&
+                      customerForm.controls['customerPhone'].invalid && 
+                      (customerForm.controls['customerPhone'].dirty || 
+                      customerForm.controls['customerPhone'].touched)" 
+              class="text-danger"
+            >
+              <div *ngIf="customerForm.controls['customerPhone'].errors?.['required']">
+                Customer Phone is required.
+              </div>
+              <div *ngIf="customerForm.controls['customerPhone'].errors?.['pattern']">
+                Invalid phone number format. Must be between 10 and 15 digits.
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Code (View Only) -->
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="customerCode" class="form-label">Customer Code</label>
+            <input 
+              type="text" 
+              id="customerCode" 
+              class="form-control" 
+              [value]="customerCode"
+              readonly>
+          </div>
+
+          <!-- Customer Last Order Date (View Only) -->
+          <div class="mb-3" *ngIf="modalMode == 'view'">
+            <label for="customerLastOrderDate" class="form-label">Last Order Date</label>
+            <input 
+              type="text" 
+              id="customerLastOrderDate" 
+              class="form-control" 
+              [value]="customerLastOrderDate"
+              readonly>
+          </div>
+                   
+          <!-- Submit button -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">
+              Close
+            </button>
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              *ngIf="modalMode == 'add'"
+              [disabled]="customerForm.invalid"
+            >Save</button>
+            <button 
+              type="submit" 
+              class="btn btn-warning" 
+              *ngIf="modalMode == 'edit'"
+              [disabled]="customerForm.invalid"
+            >Edit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [ngClass]="{ 'show': isOpen }" *ngIf="isOpen"></div>

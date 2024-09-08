@@ -1,7 +1,11 @@
 <div class="row customer-list-container table-responsive">
   <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
     <h3>User Management</h3>
-    <button class="btn btn-primary" style="height: 40px;" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Add Customer</button>
+    <button 
+      class="btn btn-primary" 
+      style="height: 40px;" 
+      (click)="onAddCustomer()"
+    >Add Customer</button>
   </div>
 
   <!-- Customer Filter Component -->
@@ -27,14 +31,15 @@
   <!-- Customer Create Modal -->
   <app-customer-add-form (formSubmit)="onFormSubmit()"></app-customer-add-form>
 
-  <!-- <app-modal name="Delete Customer" #deleteCustomerModal actionButtonText="Delete" [payload]="deleteCustomerModal.payload">
-    <p>Are you sure want to delete the customer?</p>
-  </app-modal> -->
+  <app-customer-modal
+    #customerModal
+    (formSubmit)="fetchCustomers()"
+  ></app-customer-modal>
 
   <app-customer-delete-modal 
     #deleteCustomerModal 
     [customerId]="deletedCustomerId"
-    (customerDeleted)="onCustomerDeleted()"
+    (customerDeleted)="fetchCustomers()"
   ></app-customer-delete-modal>
   
 </div>

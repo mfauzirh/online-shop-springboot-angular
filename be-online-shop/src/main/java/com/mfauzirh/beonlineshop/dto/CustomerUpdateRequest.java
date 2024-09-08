@@ -29,7 +29,6 @@ public class CustomerUpdateRequest {
     @PhoneNumber
     private String customerPhone;
 
-    @NotNull(message = "Customer picture is required")
     @FileExtension(extensions = {"jpg", "jpeg", "png"}, message = "Only .jpg, .jpeg, and .png files are allowed")
     @FileSize(max = 2, message = "File size must not exceed 1 MB")
     private MultipartFile pic;

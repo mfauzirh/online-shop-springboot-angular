@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { BaseResponse } from '../models/base-response.model';
 import { CustomerPreviewResponse } from '../models/customer-preview-response.model';
 import { Observable } from 'rxjs';
+import { CustomerResponse } from '../models/customer-response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,19 @@ export class CustomerService {
     return this.httpClient.get<BaseResponse<CustomerPreviewResponse[]>>(this.apiUrl, { params });
   }
 
+  getCustomerById(customerId: number): Observable<BaseResponse<CustomerResponse>> {
+    return this.httpClient.get<BaseResponse<CustomerResponse>>(`${this.apiUrl}/${customerId}`);
+  }
+
   deleteCustomer(customerId: number): Observable<BaseResponse<String>> {
     return this.httpClient.delete<BaseResponse<String>>(`${this.apiUrl}/${customerId}`)
+  }
+
+  addCustomer(customer: FormData): Observable<BaseResponse<String>> {
+    return this.httpClient.post<BaseResponse<String>>(this.apiUrl, customer);
+  }
+
+  editCustomer(customerId: number, customer: FormData): Observable<BaseResponse<String>> {
+    return this.httpClient.put<BaseResponse<String>>(`${this.apiUrl}/${customerId}`, customer);
   }
 }
