@@ -20,6 +20,7 @@ export class ItemComponent implements OnInit {
     searchBy: '',
   };
   filterPrice = '';
+  filterStock = '';
 
   constructor(
     private itemService: ItemService,
@@ -46,8 +47,14 @@ export class ItemComponent implements OnInit {
 
   // Set new filter price criteria and using it to re-fetch the customer
   onFilterPrice(filterPrice: string): void {
-    console.log("triggered")
     this.filterPrice = filterPrice;
+    this.page = 1;
+    this.fetchItems();
+  }
+
+  // Set new filter price criteria and using it to re-fetch the customer
+  onFilterStock(filterStock: string): void {
+    this.filterStock = filterStock;
     this.page = 1;
     this.fetchItems();
   }
@@ -62,6 +69,10 @@ export class ItemComponent implements OnInit {
 
     if (this.filterPrice.length > 0) {
       params = params.set('price', this.filterPrice);
+    }
+
+    if (this.filterStock.length > 0) {
+      params = params.set('stock', this.filterStock);
     }
     
     this.itemService.getAllItems(params).subscribe({

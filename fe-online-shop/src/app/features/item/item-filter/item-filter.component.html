@@ -1,26 +1,21 @@
 <div class="filter-container mt-2 mb-4">
 
   <!-- Sort input container -->
-  <div class="sort form-group row d-flex align-items-center">
-    <label 
-      class="col" 
-      for="sortBy"
-    >Sort Criteria</label>
-    <select 
-      style="width: 180px;"
-      class="col form-control"
-      id="sortBy"
-      [(ngModel)]="selectedSort" 
-      (change)="onSort()"
-    >
-      <option *ngFor="let option of sortOptions" [value]="option">
-        {{ option }}
-      </option>
-    </select>
-  </div>
+  <div class="sort form-group row">
 
-  <!-- Search input container -->
-  <div class="search form-group row">
+    <div class="col d-flex align-items-center">
+      <label for="sortBy">Sort Criteria</label>
+      <select 
+        class="col form-control"
+        id="sortBy"
+        [(ngModel)]="selectedSort" 
+        (change)="onSort()"
+      >
+        <option *ngFor="let option of sortOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
 
     <!-- Filter Price -->
     <div class="col d-flex align-items-center">
@@ -28,8 +23,8 @@
       <select 
         id="filterPriceInput"
         class="col form-control ms-2" 
-        [(ngModel)]="selectedFilterPriceCriteria"
-        (change)="onFilterPriceCriteria()"
+        [(ngModel)]="selectedPriceFilter"
+        (change)="onPriceFilter()"
       >
         <option value="">All</option>
         <option *ngFor="let option of filterPriceOptions" [value]="option">
@@ -37,6 +32,26 @@
         </option>
       </select>
     </div>
+
+    <!-- Filter Stock -->
+    <div class="col d-flex align-items-center">
+      <label for="stockFilterInput">Filter Stock</label>
+      <select 
+        id="stockFilterInput"
+        class="col form-control ms-2" 
+        [(ngModel)]="selectedStockFilter"
+        (change)="onStockFilter()"
+      >
+        <option value="">All</option>
+        <option *ngFor="let option of filterStockOptions" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Search input container -->
+  <div class="search form-group row filter-container-second ">
 
     <!-- Search By Criteria -->
     <div class="col d-flex align-items-center">

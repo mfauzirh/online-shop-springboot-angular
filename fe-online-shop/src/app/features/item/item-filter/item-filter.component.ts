@@ -9,6 +9,7 @@ export class ItemFilterComponent {
   @Output() search = new EventEmitter<any>();
   @Output() sort = new EventEmitter<string>();
   @Output() filterPrice = new EventEmitter<string>();
+  @Output() filterStock = new EventEmitter<string>();
 
   searchValue = '';
   searchBy = 'itemName';
@@ -28,7 +29,14 @@ export class ItemFilterComponent {
     '1000000-2500000',
     '2500000'
   ];
-  selectedFilterPriceCriteria = "";
+  selectedPriceFilter = "";
+  
+  filterStockOptions = [
+    '0-10',
+    '10-20',
+    '30'
+  ];
+  selectedStockFilter = "";
 
   // When search is triggered
   // Send filter criteria to parent for re-fetching item with filter criteria
@@ -48,7 +56,13 @@ export class ItemFilterComponent {
 
   // When filter price criteria changed
   // Send filter price criteria to parent for re-fetching item with new filter price criteria
-  onFilterPriceCriteria(): void {
-    this.filterPrice.emit(this.selectedFilterPriceCriteria);
+  onPriceFilter(): void {
+    this.filterPrice.emit(this.selectedPriceFilter);
+  }
+
+  // When filter price criteria changed
+  // Send filter price criteria to parent for re-fetching item with new filter price criteria
+  onStockFilter(): void {
+    this.filterStock.emit(this.selectedStockFilter);
   }
 }
