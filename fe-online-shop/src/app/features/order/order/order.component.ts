@@ -91,4 +91,17 @@ export class OrderComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  downloadFile(): void {
+    this.orderService.downloadReport().subscribe((response: Blob) => {
+      const url = window.URL.createObjectURL(response);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `order-report-${new Date().toISOString()}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }, error => {
+      console.error('Download error:', error);
+    });
+  }
 }

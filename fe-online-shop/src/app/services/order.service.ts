@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseResponse } from '../models/base-response.model';
 import { OrderPreviewResponse } from '../models/order-preview-response';
@@ -31,5 +31,14 @@ export class OrderService {
 
   editOrder(orderId: number, order: any): Observable<BaseResponse<String>> {
     return this.httpClient.put<BaseResponse<String>>(`${this.apiUrl}/${orderId}`, order);
+  }
+
+  downloadReport(): Observable<Blob> {
+    return this.httpClient.get<Blob>(`${this.apiUrl}/generate-report`, {
+      responseType: 'blob' as 'json',
+      headers: new HttpHeaders({
+        'Accept': 'application/pdf'
+      })
+    });
   }
 }

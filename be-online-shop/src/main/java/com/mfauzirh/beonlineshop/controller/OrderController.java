@@ -7,10 +7,12 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import kotlin.Pair;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -72,5 +74,19 @@ public class OrderController {
 
         return ResponseEntity.ok(
                 new BaseResponse<>(result, HttpStatus.OK));
+    }
+
+    @GetMapping("/generate-report")
+    public ResponseEntity<Resource> downloadReport() throws Exception{
+        byte[] reportContent = orderService.generateOrderReport();
+        ByteArrayResource resource = new ByteArrayResource(reportContent);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(resource.contentLength())
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename("order-report" + new Date() + ".pdf").build().toString())
+                .body(resource);
     }
 }

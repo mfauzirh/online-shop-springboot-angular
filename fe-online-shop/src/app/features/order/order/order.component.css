@@ -1,0 +1,7 @@
+@media (max-width: 600px) {
+  .header-order-container {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
+}

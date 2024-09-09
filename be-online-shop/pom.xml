@@ -74,6 +74,18 @@
 			<artifactId>minio</artifactId>
 			<version>RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>7.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>7.0.0</version> <!-- Replace with the version you are using -->
+		</dependency>
 	</dependencies>
 
 	<build>

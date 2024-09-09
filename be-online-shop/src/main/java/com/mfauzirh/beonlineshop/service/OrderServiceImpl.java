@@ -15,13 +15,18 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import kotlin.Pair;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -144,6 +149,19 @@ public class OrderServiceImpl implements OrderService{
         orderRepository.delete(order);
 
         return "Order deleted successfully";
+    }
+
+    @Override
+    @SneakyThrows
+    public byte[] generateOrderReport() {
+        File file = ResourceUtils.getFile("src/main/resources/orderreport.jrxml");
+        JasperReport jsr = JasperCompileManager.compileReport(file.getAbsolutePath());
+        List<Order> orders = orderRepository.findAll();
+        var datasource = new JRBeanCollectionDataSource(orders);
+        Map<String, Object> parameters = new HashMap<>();
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jsr, parameters, datasource);
+
+        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
     private Specification<Order> constructSpecification(OrderFilterRequest request) {

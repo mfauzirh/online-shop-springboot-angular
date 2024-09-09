@@ -1,11 +1,18 @@
 <div class="row customer-list-container">
-  <div class="d-flex align-items-center mt-4 mb-2 justify-content-between">
+  <div class="d-flex align-items-center mt-4 mb-2 justify-content-between header-order-container">
     <h3>Order Management</h3>
+    <div class="action-button">
+      <button 
+      class="btn btn-warning me-2" 
+      style="height: 40px;" 
+      (click)="downloadFile()"
+    >Download Report</button>
     <button 
       class="btn btn-primary" 
       style="height: 40px;" 
       (click)="onAddOrder()"
     >Add Order</button>
+    </div>
   </div>
 
   <!-- Customer Filter Component -->  
