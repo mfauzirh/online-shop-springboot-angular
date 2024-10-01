@@ -79,35 +79,35 @@ JOIN
     <columnHeader height="21">
         <element kind="line" uuid="e831f3a1-f820-4912-8d52-f5844d29e78e" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
         <element kind="staticText" uuid="c5a5dddd-59ce-4b66-b742-3ad18314dc87" mode="Opaque" x="0" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[orderId]]></text>
+            <text><![CDATA[Id]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1343815a-d9fe-4542-97da-86bce0ff10e3"/>
         </element>
         <element kind="staticText" uuid="0284ddfe-1c99-40b6-a51b-1b08850623db" mode="Opaque" x="69" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[orderCode]]></text>
+            <text><![CDATA[Code]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5017359e-43b9-48fb-b202-5d959bd59b84"/>
         </element>
         <element kind="staticText" uuid="42dc7239-2b69-4d2d-8eaa-e295dd70e996" mode="Opaque" x="138" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[OrderDate]]></text>
+            <text><![CDATA[Date]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b903b411-b2dd-4fc6-9f9b-75e0213e9448"/>
         </element>
         <element kind="staticText" uuid="080124bd-dbef-455e-b670-171994c967a7" mode="Opaque" x="207" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[totalPrice]]></text>
+            <text><![CDATA[Total]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ecf8191a-7ff2-4791-8f2d-524fd9e799fd"/>
         </element>
         <element kind="staticText" uuid="83165f0e-ad6e-4720-b47b-f6cfb7fcdf96" mode="Opaque" x="276" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[quantity]]></text>
+            <text><![CDATA[Quantity]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="144449ae-397e-4cba-b4d7-4db503d27137"/>
         </element>
         <element kind="staticText" uuid="d0588ca4-bc5d-4e31-b1e5-a2d2089d644e" mode="Opaque" x="345" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[customer.customerName]]></text>
+            <text><![CDATA[Cs.Name]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b21acfa0-2308-455a-9c69-bc1623369fc8"/>
         </element>
         <element kind="staticText" uuid="7fbca0c0-a666-4cfe-8ea0-6a9b8bfb67fa" mode="Opaque" x="414" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[customer.customerAddress]]></text>
+            <text><![CDATA[Address]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="769d5315-9797-4b40-bc46-4fbe6b968453"/>
         </element>
         <element kind="staticText" uuid="76857822-e614-4677-a962-f8624eb0b604" mode="Opaque" x="483" y="0" width="69" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[item.itemName]]></text>
+            <text><![CDATA[It.Name]]></text>
             <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="90cdafda-a8c9-4b14-89fd-159e948c8e9b"/>
         </element>
     </columnHeader>
